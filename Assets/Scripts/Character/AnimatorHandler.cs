@@ -76,6 +76,14 @@ public class AnimatorHandler : MonoBehaviour
         canRotate = false;
     }
 
+    public void EnableCombo(){
+        anim.SetBool("canCombo", true);
+    }
+
+    public void DisableCombo(){
+        anim.SetBool("canCombo", false);
+    }
+
     private void OnAnimatorMove(){
         if(playerManager.isInteracting == false)
             return;

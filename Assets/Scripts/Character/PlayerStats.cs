@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -8,7 +6,12 @@ public class PlayerStats : MonoBehaviour
     public int maxHealth;
     public int currentHealth;
 
+    public int staminaLevel = 10;
+    public int maxStamina;
+    public int currentStamina;
+
     public HealthBar healthbar;
+    public StaminaBar staminaBar;
 
     AnimatorHandler animatorHandler;
 
@@ -21,11 +24,20 @@ public class PlayerStats : MonoBehaviour
         maxHealth = SetMaxHealthFromHealthLevel();
         currentHealth = maxHealth;
         healthbar.SetMaxHealth(maxHealth);
+
+        maxStamina = SetMaxStaminaFromStaminaLevel();
+        currentStamina = maxStamina;
+        staminaBar.SetMaxStamina(maxStamina);
     }
 
     private int SetMaxHealthFromHealthLevel(){
         maxHealth = healthLevel * 10;
         return maxHealth;
+    }
+
+    private int SetMaxStaminaFromStaminaLevel(){
+        maxStamina = staminaLevel * 10;
+        return maxStamina;
     }
 
     public void TakeDamage(int damage){
@@ -36,6 +48,15 @@ public class PlayerStats : MonoBehaviour
         if(currentHealth <= 0){
             currentHealth = 0;
             animatorHandler.PlayTargetAnimation("Dead", false);
+        }
+    }
+
+    public void TakeStaminaDamage(int damage){
+        currentStamina = currentStamina - damage;
+        staminaBar.SetCurrentStamina(currentStamina);
+
+        if(currentStamina <= 0){
+            currentStamina = 0;
         }
     }
 }

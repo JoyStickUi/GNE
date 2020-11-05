@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    public Transform lockOnTransform;
+
     InputHandler inputHandler;
     Animator anim;
     CameraHandler cameraHandler;
@@ -14,9 +16,10 @@ public class PlayerManager : MonoBehaviour
     public bool isSprinting;
     public bool isInAir;
     public bool isGrounded;
+    public bool canCombo;
 
     private void Awake(){
-        cameraHandler = CameraHandler.singleton;
+        cameraHandler = FindObjectOfType<CameraHandler>();
     }
     
     void Start()
@@ -31,11 +34,10 @@ public class PlayerManager : MonoBehaviour
         float delta = Time.deltaTime;
 
         isInteracting = anim.GetBool("isInteracting");
+        canCombo = anim.GetBool("canCombo");
 
-        inputHandler.TickInput(delta);
-        playerLocomotion.HandleMovement(delta);
-        playerLocomotion.HandleRollingAndSprinting(delta);
-        playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
+        inputHandler.TickInput(delta); 
+        playerLocomotion.HandleRollingAndSprinting(delta);       
     }
 
     private void FixedUpdate(){
@@ -45,11 +47,13 @@ public class PlayerManager : MonoBehaviour
             cameraHandler.FollowTarget(delta);
             cameraHandler.HandleCameraRotation(delta, inputHandler.mouseX, inputHandler.mouseY);
         }
+
+        playerLocomotion.HandleMovement(delta);
+        playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
     }
 
     private void LateUpdate(){
-        inputHandler.rollFlag = false;
-        inputHandler.sprintFlag = false;        
+        inputHandler.rollFlag = false;        
         inputHandler.rb_Input = false;
         inputHandler.rt_Input = false;
 

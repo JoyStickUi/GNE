@@ -9,6 +9,12 @@ public class WeaponItem : Item
     public bool isUnarmed;
 
     [Header("One handed attack animations")]
-    public string OH_Light_Attack_1;
-    public string OH_Heavy_Attack_1;
+    public string Light_Attack_1;
+    public string Heavy_Attack_1;
+    public string Light_Attack_2;
+
+    [Header("Stamina Costs")]
+    public int baseStamina;
+    public float lightAttackMultiplier;
+    public float heavyAttackMultiplier;
 }

@@ -129,7 +129,7 @@ public class PlayerLocomotion : MonoBehaviour
                 Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
                 myTransform.rotation = rollRotation;
             }else{
-                animatorHandler.PlayTargetAnimation("Idle", true); // make step back from the wall
+                animatorHandler.PlayTargetAnimation("Damage", true); // make step back from the wall
             }
         }
     }
@@ -186,6 +186,12 @@ public class PlayerLocomotion : MonoBehaviour
                 rigidbody.velocity = vel * (movementSpeed / 2);
                 playerManager.isInAir = true;
             }
+        }
+
+        if(playerManager.isInteracting || inputHandler.moveAmount > 0){
+            myTransform.position = Vector3.Lerp(myTransform.position, targetPosition, Time.deltaTime / 0.1f);
+        }else{
+            myTransform.position = targetPosition;
         }
 
         if(playerManager.isGrounded){

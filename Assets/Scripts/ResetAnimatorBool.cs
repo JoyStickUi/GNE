@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class ResetAnimatorBool : StateMachineBehaviour
 {
-    public string targetBool;
+    public List<string> targets;
     public bool status;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex){
-        animator.SetBool(targetBool, status);
+        foreach(string targetBool in targets){
+            animator.SetBool(targetBool, status);
+        }
     }
 }
