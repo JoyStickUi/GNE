@@ -1,25 +1,25 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class AnimatorHandler : MonoBehaviour
+public class EnemyAnimatorHandler : MonoBehaviour
 {
-    PlayerManager playerManager;
+    EnemyManager enemyManager;
     public Animator anim;
-    InputHandler inputHandler; 
-    PlayerLocomotion playerLocomotion;
+    EnemyLocomotion enemyLocomotion;
     int vertical;
     int horizontal;
     public bool canRotate;
 
     public void Initialize(){
-        playerManager = GetComponentInParent<PlayerManager>();
+        enemyManager = GetComponentInParent<EnemyManager>();
         anim = GetComponent<Animator>();
-        inputHandler = GetComponentInParent<InputHandler>();
-        playerLocomotion = GetComponentInParent<PlayerLocomotion>();
+        enemyLocomotion = GetComponentInParent<EnemyLocomotion>();
         vertical = Animator.StringToHash("Vertical");
         horizontal = Animator.StringToHash("Horizontal");
     }
 
-    public void UpdateAnimatorValues(float verticalMovement, float horizontalMovement, bool isSprinting){
+    public void UpdateAnimatorValues(float verticalMovement, float horizontalMovement){
         #region Vertical
         float v = 0;
         if(verticalMovement > 0 && verticalMovement < 0.55f){
@@ -51,11 +51,6 @@ public class AnimatorHandler : MonoBehaviour
         }
         #endregion
 
-        if(isSprinting){
-            v = 2;
-            h = horizontalMovement;
-        }
-
         anim.SetFloat(vertical, v, 0.1f, Time.deltaTime);
         anim.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
     }
@@ -82,15 +77,15 @@ public class AnimatorHandler : MonoBehaviour
         anim.SetBool("canCombo", false);
     }
 
-    private void OnAnimatorMove(){
-        if(playerManager.isInteracting == false)
-            return;
+    // private void OnAnimatorMove(){
+    //     if(enemyManager.isInteracting == false)
+    //         return;
 
-        float delta = Time.deltaTime;
-        playerLocomotion.rigidbody.drag = 0;
-        Vector3 deltaPosition = anim.deltaPosition;
-        deltaPosition.y = 0;
-        Vector3 velocity = deltaPosition / delta;
-        playerLocomotion.rigidbody.velocity = velocity;
-    }
+    //     float delta = Time.deltaTime;
+    //     enemyLocomotion.GetComponent<Rigidbody>().drag = 0;
+    //     Vector3 deltaPosition = anim.deltaPosition;
+    //     deltaPosition.y = 0;
+    //     Vector3 velocity = deltaPosition / delta;
+    //     enemyLocomotion.GetComponent<Rigidbody>().velocity = velocity;
+    // }
 }

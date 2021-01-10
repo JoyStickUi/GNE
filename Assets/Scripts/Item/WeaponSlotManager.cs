@@ -37,6 +37,10 @@ public class WeaponSlotManager : MonoBehaviour
         }
     }
 
+    public void ActivateSlash(){
+        StartCoroutine(rightHandSlot.SlashCoroutine());
+    }
+
     public void DrainStaminaLightAttack(){
         playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
     }

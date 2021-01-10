@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerLocomotion : MonoBehaviour
 {
@@ -59,7 +57,6 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void HandleRotation(float delta){
         Vector3 targetDir = Vector3.zero;
-        float moveOverride = inputHandler.moveAmount;
 
         targetDir = cameraObject.forward * inputHandler.vertical;
         targetDir += cameraObject.right * inputHandler.horizontal;
