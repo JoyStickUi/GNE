@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     public Transform lockOnTransform;
-    public BehaviourPubVariables behaviour_variables;
 
     Animator anim;
     EnemyLocomotion enemyLocomotion;
@@ -14,24 +13,28 @@ public class EnemyManager : MonoBehaviour
     public bool isInAir;
     public bool isGrounded;
 
-    [Header("Rage distance")]
-    public float minDistance;
-    public float maxDistance;
+    [Header("AI settings")]
+    public float detectionRadius;
+    public float maximumDetectionAngle = 50f;
+    public float minimumDetectionAngle = -50f;
 
     void Start(){
-        minDistance = 2f;
-        maxDistance = 10f;
-
         anim = GetComponentInChildren<Animator>();
         enemyLocomotion = GetComponent<EnemyLocomotion>();
-        behaviour_variables = GetComponentInChildren<BehaviourPubVariables>();
     }
 
     private void FixedUpdate(){
         float delta = Time.fixedDeltaTime;
         
-        // enemyLocomotion.HandleMovement(delta);
-        // enemyLocomotion.HandleFalling(delta, enemyLocomotion.moveDirection);
+        HandleCurrentAction();
+    }
+
+    private void HandleCurrentAction(){
+        if(enemyLocomotion.currentTarget == null){
+            enemyLocomotion.HandleDetection();
+        }else{
+            enemyLocomotion.HandleMoveToTarget();
+        }
     }
 
     void Update(){

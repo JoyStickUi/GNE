@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyLocomotion : MonoBehaviour
 {    
+    NavMeshAgent navMeshAgent;
+    public Rigidbody rb;
+
     EnemyManager enemyManager;
     public Vector3 moveDirection;
 
@@ -12,64 +16,103 @@ public class EnemyLocomotion : MonoBehaviour
     [HideInInspector]
     public EnemyAnimatorHandler enemyAnimatorHandler;
 
-    public new Rigidbody rigidbody;
-
     LayerMask ignoreForGroundCheck;
+    public LayerMask detectionLayer;
+
+    public CharacterStats currentTarget = null;
+    public Transform targetTransform = null;
 
     [Header("Movement stats")]
     [SerializeField]
     float movementSpeed = 5;
     [SerializeField]
-    float rotationSpeed = 10;
+    float rotationSpeed = 15;
     [SerializeField]
     float fallingSpeed = 45;
 
+    public float distanceFromTarget;
+    public float stoppingDistance = 2f;
+
+    void Awake(){
+        rb = GetComponent<Rigidbody>();
+        enemyManager = GetComponent<EnemyManager>();
+        enemyAnimatorHandler = GetComponentInChildren<EnemyAnimatorHandler>();
+        navMeshAgent = GetComponentInChildren<NavMeshAgent>();
+    }
+
     void Start()
     {
-        enemyManager = GetComponent<EnemyManager>();
-        rigidbody = GetComponent<Rigidbody>();
-        enemyAnimatorHandler = GetComponentInChildren<EnemyAnimatorHandler>();
         myTransform = transform;
-        enemyAnimatorHandler.Initialize();
+
+        navMeshAgent.enabled = false;
+        rb.isKinematic = false;
 
         enemyManager.isGrounded = true;
         ignoreForGroundCheck = ~(1 << 8 | 1 << 11);
     }
-    
-    Vector3 normalVector;
 
-    public void HandleMovementD(float delta){
-        moveDirection = myTransform.forward;
-        moveDirection.Normalize();
-        moveDirection.y = 0;
+    public void HandleDetection(){
+        Collider[] colliders = Physics.OverlapSphere(transform.position, enemyManager.detectionRadius, detectionLayer);
 
-        float speed = movementSpeed;
+        for(int i = 0; i < colliders.Length; ++i){
+            CharacterStats characterStats = colliders[i].transform.GetComponent<CharacterStats>();
+            Transform characterTransform = colliders[i].transform.GetComponent<Transform>();
 
-        moveDirection *= speed;
+            if(characterStats != null){
+                Vector3 targetDirection = characterStats.transform.position - transform.position;
+                float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
 
-        Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
-        GetComponent<Rigidbody>().velocity = projectedVelocity;
-
-        enemyAnimatorHandler.UpdateAnimatorValues(0, 0);
-
-        if(enemyAnimatorHandler.canRotate){
-            HandleRotation(delta);
+                if(viewableAngle > enemyManager.minimumDetectionAngle && viewableAngle < enemyManager.maximumDetectionAngle){
+                    currentTarget = characterStats;
+                    targetTransform = characterTransform;
+                }
+            }
         }
     }
 
-    private void HandleRotation(float delta){        
-        Vector3 playerPosition = enemyManager.behaviour_variables.playerTransform.position;
-        Vector3 direction = playerPosition - myTransform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+    public void HandleMoveToTarget(){
+        Vector3 targetDirection = currentTarget.transform.position - transform.position;
+        distanceFromTarget = Vector3.Distance(currentTarget.transform.position, transform.position);
+        float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
 
-        direction.Normalize();
-        direction.y = 0;
+        if(enemyManager.isInteracting){
+            enemyAnimatorHandler.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+            navMeshAgent.enabled = false;
+        }else{
+            if(distanceFromTarget > stoppingDistance){
+                enemyAnimatorHandler.anim.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
+            }
+            else if(distanceFromTarget <= stoppingDistance){
+                enemyAnimatorHandler.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+            }
+        }
 
-        float rs = rotationSpeed;
+        HandleRotateTowardsTarget();
 
-        Quaternion tr = Quaternion.LookRotation(direction);
-        Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta);
+        navMeshAgent.transform.localPosition = Vector3.zero;
+        navMeshAgent.transform.localRotation = Quaternion.identity;
+    }
 
-        myTransform.rotation = targetRotation;
+    private void HandleRotateTowardsTarget(){  
+        if(enemyManager.isInteracting){
+            Vector3 direction = currentTarget.transform.position - transform.position;
+            direction.y = 0;
+            direction.Normalize();
+
+            if(direction == Vector3.zero){
+                direction = transform.forward;
+            }
+
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed / Time.deltaTime);
+        }else{
+            Vector3 relativeDirection = transform.InverseTransformDirection(navMeshAgent.desiredVelocity);
+            Vector3 targetVelocity = rb.velocity;
+
+            navMeshAgent.enabled = true;
+            navMeshAgent.SetDestination(currentTarget.transform.position);
+            rb.velocity = targetVelocity;
+            transform.rotation = Quaternion.Slerp(transform.rotation, navMeshAgent.transform.rotation, rotationSpeed / Time.deltaTime);
+        }
     }
 }
