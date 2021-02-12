@@ -46,10 +46,4 @@ public class WeaponHolderSlot : MonoBehaviour
         currentWeaponModel = model;
         slash = model.transform.Find("Slash").gameObject;
     }
-
-    public IEnumerator SlashCoroutine(){
-        slash.SetActive(true);
-        yield return new WaitForSeconds(1f);
-        slash.SetActive(false);
-    }
 }
