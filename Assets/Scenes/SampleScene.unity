@@ -691,7 +691,6 @@ MonoBehaviour:
   isLeftHandSlot: 0
   isRightHandSlot: 1
   currentWeaponModel: {fileID: 0}
-  slash: {fileID: 0}
 --- !u!1 &501825230
 GameObject:
   m_ObjectHideFlags: 0
@@ -1602,7 +1601,6 @@ MonoBehaviour:
   isLeftHandSlot: 1
   isRightHandSlot: 0
   currentWeaponModel: {fileID: 0}
-  slash: {fileID: 0}
 --- !u!1 &1230268874
 GameObject:
   m_ObjectHideFlags: 0
@@ -2219,6 +2217,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8108a155b5f3b4f9ee7ca7fdc6d1bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2012823313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012823308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b911f3d6ea563ef42bb1c721a0c406be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animation: {fileID: 0}
+  _start: 0
+  _end: 0
+  _trail: {fileID: 0}
 --- !u!1 &2120676546
 GameObject:
   m_ObjectHideFlags: 0

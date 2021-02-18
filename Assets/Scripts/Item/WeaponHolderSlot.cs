@@ -8,7 +8,6 @@ public class WeaponHolderSlot : MonoBehaviour
     public bool isRightHandSlot;
 
     public GameObject currentWeaponModel;
-    public GameObject slash;
 
     public void UnloadWeapon(){
         if(currentWeaponModel != null){
@@ -44,6 +43,5 @@ public class WeaponHolderSlot : MonoBehaviour
         }
 
         currentWeaponModel = model;
-        slash = model.transform.Find("Slash").gameObject;
     }
 }
