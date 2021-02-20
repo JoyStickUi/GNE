@@ -28,36 +28,40 @@ public class SwooshTest : MonoBehaviour
 	
 	void Start()
 	{
+        _animation = GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip;
 		float frames = _animation.frameRate * _animation.length;
-        _trail = GetComponentInChildren<WeaponTrail>();
 		_startN = _start/frames;
 		_endN = _end/frames;
 		_animationStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-		_trail.Emit = false;
 	}
 	
 	void Update()
 	{
-		_time += _animationStateInfo.normalizedTime - _prevAnimTime;
-		if (_time > 1.0f || _firstFrame)
-		{
-			if (!_firstFrame)
-			{
-				_time -= 1.0f;
-			}
-			_firstFrame = false;
-		}
-		
-		if (_prevTime < _startN && _time >= _startN)
-		{
-			_trail.Emit = true;
-		}
-		else if (_prevTime < _endN && _time >= _endN)
-		{
-			_trail.Emit = false;
-		}
-		
-		_prevTime = _time;
-		_prevAnimTime = _animationStateInfo.normalizedTime;
+        if(GetComponentInChildren<WeaponTrail>() != null && _trail == null){
+            _trail = GetComponentInChildren<WeaponTrail>();
+            _trail.Emit = false;
+        }else{
+            // _time += _animationStateInfo.normalizedTime - _prevAnimTime;
+            // if (_time > 1.0f || _firstFrame)
+            // {
+            // 	if (!_firstFrame)
+            // 	{
+            // 		_time -= 1.0f;
+            // 	}
+            // 	_firstFrame = false;
+            // }
+            
+            // if (_prevTime < _startN && _time >= _startN)
+            // {
+            // 	_trail.Emit = true;
+            // }
+            // else if (_prevTime < _endN && _time >= _endN)
+            // {
+            // 	_trail.Emit = false;
+            // }
+
+            _prevTime = _time;
+            _prevAnimTime = _animationStateInfo.normalizedTime;
+        }
 	}
 }

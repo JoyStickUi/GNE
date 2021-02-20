@@ -24178,6 +24178,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.33333334
+    functionName: EnableTrailEffect
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.375
     functionName: DrainStaminaLightAttack
     data: 
@@ -24187,6 +24194,13 @@ AnimationClip:
     messageOptions: 0
   - time: 0.625
     functionName: CloseRightHandDamageCollider
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.625
+    functionName: DisableTrailEffect
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

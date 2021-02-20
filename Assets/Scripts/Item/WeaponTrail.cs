@@ -40,10 +40,8 @@ public class WeaponTrail : MonoBehaviour
 	[SerializeField]
 	bool _autoDestruct = false;
 
-#if USE_INTERPOLATION
 	[SerializeField]
 	int subdivisions = 4;
-#endif
 
 	[SerializeField]
 	Transform _base;
@@ -51,9 +49,7 @@ public class WeaponTrail : MonoBehaviour
 	Transform _tip;
 
 	List<Point> _points = new List<Point>();
-#if USE_INTERPOLATION
 	List<Point> _smoothedPoints = new List<Point>();
-#endif
 	GameObject _trailObject;
 	Mesh _trailMesh;
 	Vector3 _lastPosition;
@@ -111,10 +107,10 @@ public class WeaponTrail : MonoBehaviour
 			Destroy(gameObject);
 		}
 
-		// early out if there is no camera
+		
 		if (!Camera.main) return;
 
-		// if we have moved enough, create a new vertex and make sure we rebuild the mesh
+		
 		float theDistanceSqr = (_lastPosition - transform.position).sqrMagnitude;
 		if (_emit)
 		{
@@ -127,8 +123,6 @@ public class WeaponTrail : MonoBehaviour
 				}
 				else
 				{
-					//Vector3 l1 = _points[_points.Count - 2].basePosition - _points[_points.Count - 3].basePosition;
-					//Vector3 l2 = _points[_points.Count - 1].basePosition - _points[_points.Count - 2].basePosition;
 					Vector3 l1 = _points[_points.Count - 2].tipPosition - _points[_points.Count - 3].tipPosition;
 					Vector3 l2 = _points[_points.Count - 1].tipPosition - _points[_points.Count - 2].tipPosition;
 					if (Vector3.Angle(l1, l2) > _maxAngle || theDistanceSqr > _maxVertexDistanceSqr) make = true;
@@ -144,19 +138,16 @@ public class WeaponTrail : MonoBehaviour
 					_lastPosition = transform.position;
 
 
-#if USE_INTERPOLATION
 					if (_points.Count == 1)
 					{
 						_smoothedPoints.Add(p);
 					}
 					else if (_points.Count > 1)
 					{
-						// add 1+subdivisions for every possible pair in the _points
 						for (int n = 0; n < 1+subdivisions; ++n)
 							_smoothedPoints.Add(p);
 					}
 
-					// we use 4 control points for the smoothing
 					if (_points.Count >= 4)
 					{
 						Vector3[] tipPoints = new Vector3[4];
@@ -165,7 +156,6 @@ public class WeaponTrail : MonoBehaviour
 						tipPoints[2] = _points[_points.Count - 2].tipPosition;
 						tipPoints[3] = _points[_points.Count - 1].tipPosition;
 
-						//IEnumerable<Vector3> smoothTip = Interpolate.NewBezier(Interpolate.Ease(Interpolate.EaseType.Linear), tipPoints, subdivisions);
 						IEnumerable<Vector3> smoothTip = Interpolate.NewCatmullRom(tipPoints, subdivisions, false);
 
 						Vector3[] basePoints = new Vector3[4];
@@ -174,7 +164,6 @@ public class WeaponTrail : MonoBehaviour
 						basePoints[2] = _points[_points.Count - 2].basePosition;
 						basePoints[3] = _points[_points.Count - 1].basePosition;
 
-						//IEnumerable<Vector3> smoothBase = Interpolate.NewBezier(Interpolate.Ease(Interpolate.EaseType.Linear), basePoints, subdivisions);
 						IEnumerable<Vector3> smoothBase = Interpolate.NewCatmullRom(basePoints, subdivisions, false);
 
 						List<Vector3> smoothTipList = new List<Vector3>(smoothTip);
@@ -183,14 +172,11 @@ public class WeaponTrail : MonoBehaviour
 						float firstTime = _points[_points.Count - 4].timeCreated;
 						float secondTime = _points[_points.Count - 1].timeCreated;
 
-						//Debug.Log(" smoothTipList.Count: " + smoothTipList.Count);
-
 						for (int n = 0; n < smoothTipList.Count; ++n)
 						{
 
 							int idx = _smoothedPoints.Count - (smoothTipList.Count-n);
-							// there are moments when the _smoothedPoints are lesser
-							// than what is required, when elements from it are removed
+				
 							if (idx > -1 && idx < _smoothedPoints.Count)
 							{
 								Point sp = new Point();
@@ -199,24 +185,16 @@ public class WeaponTrail : MonoBehaviour
 								sp.timeCreated = Mathf.Lerp(firstTime, secondTime, (float)n/smoothTipList.Count);
 								_smoothedPoints[idx] = sp;
 							}
-							//else
-							//{
-							//	Debug.LogError(idx + "/" + _smoothedPoints.Count);
-							//}
 						}
 					}
-#endif
 				}
 				else
 				{
 					_points[_points.Count - 1].basePosition = _base.position;
 					_points[_points.Count - 1].tipPosition = _tip.position;
-					//_points[_points.Count - 1].timeCreated = Time.time;
 
-#if USE_INTERPOLATION
 					_smoothedPoints[_smoothedPoints.Count - 1].basePosition = _base.position;
 					_smoothedPoints[_smoothedPoints.Count - 1].tipPosition = _tip.position;
-#endif
 				}
 			}
 			else
@@ -225,16 +203,13 @@ public class WeaponTrail : MonoBehaviour
 				{
 					_points[_points.Count - 1].basePosition = _base.position;
 					_points[_points.Count - 1].tipPosition = _tip.position;
-					//_points[_points.Count - 1].timeCreated = Time.time;
 				}
 
-#if USE_INTERPOLATION
 				if (_smoothedPoints.Count > 0)
 				{
 					_smoothedPoints[_smoothedPoints.Count - 1].basePosition = _base.position;
 					_smoothedPoints[_smoothedPoints.Count - 1].tipPosition = _tip.position;
 				}
-#endif
 			}
 		}
 
@@ -246,20 +221,14 @@ public class WeaponTrail : MonoBehaviour
 			_trailMesh.Clear();
 		}
 
-#if USE_INTERPOLATION
 		RemoveOldPoints(_smoothedPoints);
 		if (_smoothedPoints.Count == 0)
 		{
 			_trailMesh.Clear();
 		}
-#endif
 
 
-#if USE_INTERPOLATION
 		List<Point> pointsToUse = _smoothedPoints;
-#else
-		List<Point> pointsToUse = _points;
-#endif
 
 		if (pointsToUse.Count > 1)
 		{
@@ -333,7 +302,6 @@ public class WeaponTrail : MonoBehaviour
 		List<Point> remove = new List<Point>();
 		foreach (Point p in pointList)
 		{
-			// cull old points first
 			if (Time.time - p.timeCreated > _lifeTime)
 			{
 				remove.Add(p);
