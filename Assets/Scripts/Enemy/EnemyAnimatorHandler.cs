@@ -12,6 +12,12 @@ public class EnemyAnimatorHandler : MonoBehaviour
         enemyLocomotion = GetComponentInParent<EnemyLocomotion>();
     }
 
+    public void PlayTargetAnimation(string targetAnim, bool isInteracting){
+        anim.applyRootMotion = isInteracting;
+        anim.SetBool("isInteracting", isInteracting);
+        anim.CrossFade(targetAnim, 0.2f);
+    }
+
     private void OnAnimatorMove(){
         float delta = Time.deltaTime;
         enemyLocomotion.rb.drag = 0;
