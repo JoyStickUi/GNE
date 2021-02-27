@@ -39,10 +39,17 @@ public class EnemyManager : MonoBehaviour
     private void HandleCurrentAction(){
         if(enemyLocomotion.currentTarget == null){
             enemyLocomotion.HandleDetection();
-        }else if(enemyLocomotion.distanceFromTarget > enemyLocomotion.stoppingDistance){
-            enemyLocomotion.HandleMoveToTarget();
-        }else if(enemyLocomotion.distanceFromTarget <= enemyLocomotion.stoppingDistance){
-            //handle attack action
+        }
+
+        if(enemyLocomotion.currentTarget != null){
+            enemyLocomotion.distanceFromTarget = Vector3.Distance(enemyLocomotion.currentTarget.transform.position, transform.position);
+
+            enemyLocomotion.HandleMoveToTarget();  
+            
+            if(enemyLocomotion.distanceFromTarget <= enemyLocomotion.stoppingDistance){
+                //handle attack action
+                AttackTarget();
+            }
         }
     }
 
@@ -55,12 +62,13 @@ public class EnemyManager : MonoBehaviour
         if(isInteracting)
             return;
 
-        if(currentAttack != null){
+        if(currentAttack == null){
             GetNewAttack();
         }else{
             isInteracting = true;
             currentRecoveryTime = currentAttack.recoveryTime;
             enemyAnimatorHandler.PlayTargetAnimation(currentAttack.actionAnimation, true);
+            currentAttack = null;
         }
     }
 
