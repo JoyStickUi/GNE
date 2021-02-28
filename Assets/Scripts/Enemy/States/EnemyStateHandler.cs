@@ -6,19 +6,12 @@ public class EnemyStateHandler : MonoBehaviour
 {
     [HideInInspector]
     public EnemyManager enemyManager;
-    EnemyLocomotion enemyLocomotion;
-    EnemyAttacker enemyAttacker;
-    EnemyStats enemyStats;
-    EnemyAnimatorHandler enemyAnimatorHandler;
 
     [SerializeField]
     public EnemyState currentState;
 
     void Start(){
-        enemyLocomotion = GetComponent<EnemyLocomotion>();
-        enemyAttacker = GetComponent<EnemyAttacker>();
-        enemyStats = GetComponent<EnemyStats>();
-        enemyAnimatorHandler = GetComponentInChildren<EnemyAnimatorHandler>();
+        enemyManager = GetComponent<EnemyManager>();
 
         currentState = GetComponentInChildren<IdleState>();
     }
@@ -30,18 +23,7 @@ public class EnemyStateHandler : MonoBehaviour
 
     public void HandleCurrentState(){
         if(currentState != null){
-            currentState = currentState.Tick(enemyManager, enemyStats, enemyAnimatorHandler);
+            currentState = currentState.Tick(enemyManager);
         }
-
-        // if(enemyLocomotion.currentTarget != null){
-        //     enemyLocomotion.distanceFromTarget = Vector3.Distance(enemyLocomotion.currentTarget.transform.position, transform.position);
-
-        //     enemyLocomotion.HandleMoveToTarget();  
-            
-        //     if(enemyLocomotion.distanceFromTarget <= enemyLocomotion.stoppingDistance){
-        //         //handle attack action
-        //         enemyAttacker.AttackTarget();
-        //     }
-        // }
     }
 }

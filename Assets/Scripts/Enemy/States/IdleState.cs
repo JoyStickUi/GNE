@@ -15,10 +15,12 @@ public class IdleState : EnemyState
     [SerializeField]
     float minimumDetectionAngle = -50f;
 
-    public override EnemyState Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorHandler enemyAnimatorHandler){
+    public override EnemyState Tick(EnemyManager enemyManager){
         if(enemyManager.currentTarget != null)
             return GetComponent<PursueState>();
+            
         HandleDetection(enemyManager);
+
         return this;
     }
 

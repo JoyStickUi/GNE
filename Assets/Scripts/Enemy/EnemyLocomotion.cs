@@ -11,9 +11,6 @@ public class EnemyLocomotion : MonoBehaviour
     [HideInInspector]
     public EnemyManager enemyManager;
 
-    [HideInInspector]
-    public EnemyAnimatorHandler enemyAnimatorHandler;
-
     [SerializeField]
     float rotationSpeed = 15;
 
@@ -21,8 +18,8 @@ public class EnemyLocomotion : MonoBehaviour
     public float stoppingDistance = 2f;
 
     void Awake(){
+        enemyManager = GetComponent<EnemyManager>();
         rb = GetComponent<Rigidbody>();
-        enemyAnimatorHandler = GetComponentInChildren<EnemyAnimatorHandler>();
         navMeshAgent = GetComponentInChildren<NavMeshAgent>();
     }
 
@@ -33,22 +30,22 @@ public class EnemyLocomotion : MonoBehaviour
     }
 
     public void HandleMoveToTarget(){
-        // if(enemyManager.isInteracting)
-        //     return;
+        if(enemyManager.isInteracting)
+            return;
 
         Vector3 targetDirection = enemyManager.currentTarget.transform.position - transform.position;
         distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position);
         float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
 
         if(enemyManager.isInteracting){
-            enemyAnimatorHandler.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+            enemyManager.enemyAnimatorHandler.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
             navMeshAgent.enabled = false;
         }else{
             if(distanceFromTarget > stoppingDistance){
-                enemyAnimatorHandler.anim.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
+                enemyManager.enemyAnimatorHandler.anim.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
             }
             else if(distanceFromTarget <= stoppingDistance){
-                enemyAnimatorHandler.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+                enemyManager.enemyAnimatorHandler.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
             }
         }
 

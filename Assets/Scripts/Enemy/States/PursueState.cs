@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class PursueState : EnemyState
 {
-    public override EnemyState Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorHandler enemyAnimatorHandler){
+    public override EnemyState Tick(EnemyManager enemyManager){
         if(enemyManager.currentTarget != null){
             enemyManager.enemyLocomotion.distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position);
 
             enemyManager.enemyLocomotion.HandleMoveToTarget();  
             
             if(enemyManager.enemyLocomotion.distanceFromTarget <= enemyManager.enemyLocomotion.stoppingDistance){
-                //handle attack state switch
+                return GetComponent<StuffAttackState>();
             }
 
             return this;

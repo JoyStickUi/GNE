@@ -6,8 +6,6 @@ public class EnemyAttacker : MonoBehaviour
 {
     [HideInInspector]
     public EnemyManager enemyManager;
-    EnemyLocomotion enemyLocomotion;
-    EnemyAnimatorHandler enemyAnimatorHandler;
 
     public EnemyAttackAction[] enemyAttacks;
     public EnemyAttackAction currentAttack;
@@ -15,8 +13,7 @@ public class EnemyAttacker : MonoBehaviour
     public float currentRecoveryTime = 0;
 
     void Start(){
-        enemyLocomotion = GetComponent<EnemyLocomotion>();
-        enemyAnimatorHandler = GetComponentInChildren<EnemyAnimatorHandler>();
+        enemyManager = GetComponent<EnemyManager>();
     }
 
     void Update()
@@ -33,7 +30,7 @@ public class EnemyAttacker : MonoBehaviour
         }else{
             enemyManager.isInteracting = true;
             currentRecoveryTime = currentAttack.recoveryTime;
-            enemyAnimatorHandler.PlayTargetAnimation(currentAttack.actionAnimation, true);
+            enemyManager.enemyAnimatorHandler.PlayTargetAnimation(currentAttack.actionAnimation, true);
             currentAttack = null;
         }
     }
@@ -41,7 +38,7 @@ public class EnemyAttacker : MonoBehaviour
     private void GetNewAttack(){
         Vector3 targetDirection = enemyManager.currentTarget.transform.position - transform.position;
         float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
-        enemyLocomotion.distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position);
+        enemyManager.enemyLocomotion.distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position);
 
         int maxScore = 0;
 
@@ -49,8 +46,8 @@ public class EnemyAttacker : MonoBehaviour
             EnemyAttackAction enemyAttackAction = enemyAttacks[i];
 
             if(
-                enemyLocomotion.distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack
-                && enemyLocomotion.distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack
+                enemyManager.enemyLocomotion.distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack
+                && enemyManager.enemyLocomotion.distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack
                 && viewableAngle <= enemyAttackAction.maximuxAttackAngle
                 && viewableAngle >= enemyAttackAction.minimumAttackAngle
             ){
@@ -65,8 +62,8 @@ public class EnemyAttacker : MonoBehaviour
             EnemyAttackAction enemyAttackAction = enemyAttacks[i];
 
             if(
-                enemyLocomotion.distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack
-                && enemyLocomotion.distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack
+                enemyManager.enemyLocomotion.distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack
+                && enemyManager.enemyLocomotion.distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack
                 && viewableAngle <= enemyAttackAction.maximuxAttackAngle
                 && viewableAngle >= enemyAttackAction.minimumAttackAngle
             ){

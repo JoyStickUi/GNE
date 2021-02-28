@@ -11,8 +11,17 @@ public class EnemyManager : MonoBehaviour
     public EnemyAttacker enemyAttacker;
     public EnemyAnimatorHandler enemyAnimatorHandler;
     public EnemyStateHandler enemyStateHandler;
+    public EnemyStats enemyStats;
 
-    public bool isInteracting;
+    private bool _isInteracting;
+
+    public bool isInteracting{
+        get => _isInteracting;
+        set{
+            enemyAnimatorHandler.anim.SetBool("isInteracting", value);
+            _isInteracting = value;
+        }
+    }
 
     public CharacterStats currentTarget = null;
     public Transform targetTransform = null;
@@ -22,14 +31,9 @@ public class EnemyManager : MonoBehaviour
         enemyAttacker = GetComponent<EnemyAttacker>();
         enemyAnimatorHandler = GetComponentInChildren<EnemyAnimatorHandler>();
         enemyStateHandler = GetComponent<EnemyStateHandler>();
-
-        enemyLocomotion.enemyManager = this;
-        enemyAttacker.enemyManager = this;
-        enemyAnimatorHandler.enemyManager = this;
-        enemyStateHandler.enemyManager = this;
     }
 
     void Update(){
-        // isInteracting = anim.GetBool("isInteracting");
+    
     }
 }

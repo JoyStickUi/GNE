@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyAnimatorHandler : MonoBehaviour
 {
-    EnemyLocomotion enemyLocomotion;
     [HideInInspector]
     public EnemyManager enemyManager;
 
@@ -12,7 +11,7 @@ public class EnemyAnimatorHandler : MonoBehaviour
 
     private void Awake(){
         anim = GetComponent<Animator>();
-        enemyLocomotion = GetComponentInParent<EnemyLocomotion>();
+        enemyManager = GetComponentInParent<EnemyManager>();
     }
 
     public void PlayTargetAnimation(string targetAnim, bool isInteracting){
@@ -23,13 +22,13 @@ public class EnemyAnimatorHandler : MonoBehaviour
 
     private void OnAnimatorMove(){
         float delta = Time.deltaTime;
-        enemyLocomotion.rb.drag = 0;
+        enemyManager.enemyLocomotion.rb.drag = 0;
         Vector3 velocity = Vector3.zero;
 
         if(enemyManager.targetTransform != null){
             velocity = (enemyManager.targetTransform.position - transform.position).normalized;
         }
 
-        enemyLocomotion.rb.velocity = velocity * anim.GetFloat("Vertical");
+        enemyManager.enemyLocomotion.rb.velocity = velocity * anim.GetFloat("Vertical");
     }
 }
