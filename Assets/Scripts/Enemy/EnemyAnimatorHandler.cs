@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class EnemyAnimatorHandler : MonoBehaviour
 {
-    public Animator anim;
     EnemyLocomotion enemyLocomotion;
+    [HideInInspector]
+    public EnemyManager enemyManager;
+
+    public Animator anim;
 
     private void Awake(){
         anim = GetComponent<Animator>();
@@ -21,10 +24,12 @@ public class EnemyAnimatorHandler : MonoBehaviour
     private void OnAnimatorMove(){
         float delta = Time.deltaTime;
         enemyLocomotion.rb.drag = 0;
-        // Vector3 deltaPosition = anim.deltaPosition;
-        // deltaPosition.y = 0;
-        // Vector3 velocity = deltaPosition / delta;
-        Vector3 velocity = (enemyLocomotion.targetTransform.position - transform.position).normalized;
+        Vector3 velocity = Vector3.zero;
+
+        if(enemyManager.targetTransform != null){
+            velocity = (enemyManager.targetTransform.position - transform.position).normalized;
+        }
+
         enemyLocomotion.rb.velocity = velocity * anim.GetFloat("Vertical");
     }
 }

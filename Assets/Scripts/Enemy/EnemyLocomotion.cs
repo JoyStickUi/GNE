@@ -8,74 +8,36 @@ public class EnemyLocomotion : MonoBehaviour
     NavMeshAgent navMeshAgent;
     public Rigidbody rb;
 
-    EnemyManager enemyManager;
-    public Vector3 moveDirection;
-
     [HideInInspector]
-    public Transform myTransform;
+    public EnemyManager enemyManager;
+
     [HideInInspector]
     public EnemyAnimatorHandler enemyAnimatorHandler;
 
-    LayerMask ignoreForGroundCheck;
-    public LayerMask detectionLayer;
-
-    public CharacterStats currentTarget = null;
-    public Transform targetTransform = null;
-
-    [Header("Movement stats")]
-    [SerializeField]
-    float movementSpeed = 5;
     [SerializeField]
     float rotationSpeed = 15;
-    [SerializeField]
-    float fallingSpeed = 45;
 
     public float distanceFromTarget;
     public float stoppingDistance = 2f;
 
     void Awake(){
         rb = GetComponent<Rigidbody>();
-        enemyManager = GetComponent<EnemyManager>();
         enemyAnimatorHandler = GetComponentInChildren<EnemyAnimatorHandler>();
         navMeshAgent = GetComponentInChildren<NavMeshAgent>();
     }
 
     void Start()
     {
-        myTransform = transform;
-
         navMeshAgent.enabled = false;
         rb.isKinematic = false;
-
-        enemyManager.isGrounded = true;
-        ignoreForGroundCheck = ~(1 << 8 | 1 << 11);
-    }
-
-    public void HandleDetection(){
-        Collider[] colliders = Physics.OverlapSphere(transform.position, enemyManager.detectionRadius, detectionLayer);
-
-        for(int i = 0; i < colliders.Length; ++i){
-            CharacterStats characterStats = colliders[i].transform.GetComponent<CharacterStats>();
-            Transform characterTransform = colliders[i].transform.GetComponent<Transform>();
-
-            if(characterStats != null){
-                Vector3 targetDirection = characterStats.transform.position - transform.position;
-                float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
-
-                if(viewableAngle > enemyManager.minimumDetectionAngle && viewableAngle < enemyManager.maximumDetectionAngle){
-                    currentTarget = characterStats;
-                    targetTransform = characterTransform;
-                }
-            }
-        }
     }
 
     public void HandleMoveToTarget(){
         // if(enemyManager.isInteracting)
         //     return;
 
-        Vector3 targetDirection = currentTarget.transform.position - transform.position;
-        distanceFromTarget = Vector3.Distance(currentTarget.transform.position, transform.position);
+        Vector3 targetDirection = enemyManager.currentTarget.transform.position - transform.position;
+        distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position);
         float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
 
         if(enemyManager.isInteracting){
@@ -98,7 +60,7 @@ public class EnemyLocomotion : MonoBehaviour
 
     private void HandleRotateTowardsTarget(){  
         if(enemyManager.isInteracting){
-            Vector3 direction = currentTarget.transform.position - transform.position;
+            Vector3 direction = enemyManager.currentTarget.transform.position - transform.position;
             direction.y = 0;
             direction.Normalize();
 
@@ -113,7 +75,7 @@ public class EnemyLocomotion : MonoBehaviour
             Vector3 targetVelocity = rb.velocity;
 
             navMeshAgent.enabled = true;
-            navMeshAgent.SetDestination(currentTarget.transform.position);
+            navMeshAgent.SetDestination(enemyManager.currentTarget.transform.position);
             rb.velocity = targetVelocity;
             transform.rotation = Quaternion.Slerp(transform.rotation, navMeshAgent.transform.rotation, rotationSpeed / Time.deltaTime);
         }
