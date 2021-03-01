@@ -16,7 +16,7 @@ public class IdleState : EnemyState
     float minimumDetectionAngle = -50f;
 
     public override EnemyState Tick(EnemyManager enemyManager){
-        if(enemyManager.currentTarget != null)
+        if(enemyManager.currentTarget != null && enemyManager.currentPhase.keyState == EnemyPhase.MAIN_STATES.Pursue)
             return GetComponent<PursueState>();
             
         HandleDetection(enemyManager);

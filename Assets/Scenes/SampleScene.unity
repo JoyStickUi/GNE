@@ -817,14 +817,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 459e94ca267cb4c41b6baf2528838cb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lockOnTransform: {fileID: 208665836}
   enemyLocomotion: {fileID: 0}
   enemyAttacker: {fileID: 0}
   enemyAnimatorHandler: {fileID: 0}
   enemyStateHandler: {fileID: 0}
   enemyStats: {fileID: 0}
+  lockOnTransform: {fileID: 208665836}
   currentTarget: {fileID: 0}
   targetTransform: {fileID: 0}
+  currentPhase: {fileID: 11400000, guid: 4dc4542b57a50e74e8e3b4da6bb19ede, type: 2}
 --- !u!114 &696102135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1683,6 +1684,7 @@ GameObject:
   - component: {fileID: 1245553190}
   - component: {fileID: 1245553191}
   - component: {fileID: 1245553192}
+  - component: {fileID: 1245553193}
   m_Layer: 0
   m_Name: EnemyStates
   m_TagString: Untagged
@@ -1744,6 +1746,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8a6858afd32b5a41995890007a9b9ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1245553193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245553188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 178ecc706ab19de48b950a18ff25e49f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1446867632
