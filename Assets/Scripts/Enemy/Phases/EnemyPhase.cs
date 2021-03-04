@@ -9,5 +9,5 @@ public class EnemyPhase : ScriptableObject
         Pursue,
         Idle
     }
-    public MAIN_STATES keyState;
+    public MAIN_STATES keyState ;
 }
