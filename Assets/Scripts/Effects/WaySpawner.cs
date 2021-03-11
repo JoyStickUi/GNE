@@ -4,15 +4,66 @@ using UnityEngine;
 
 public class WaySpawner : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public Transform pivot;
+    public ParticleSystem pivotPs;
+    public float speed = 15f;
+    public float drug = 1f;
+    public float repeatingTime = 1f;
+    public GameObject craterPrefab;
+    public float spawnRate = 1f;
+    public float spawnDuration = 1f;
+    
+    private float startSpeed = 0f;
+    private float spawnDur;
+    private float firePathDur;
+    private Vector3 stepPosition;
+
+    void Start(){
+        InvokeRepeating("StartAgain", 0f, repeatingTime);
+        startSpeed = pivotPs.forceOverLifetime.z.constant;
+        stepPosition = pivot.position;
+        spawnDur = spawnDuration;
+        firePathDur = 0f;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void StartAgain(){
+        startSpeed = pivotPs.forceOverLifetime.z.constant;
+        stepPosition = pivot.position;
+        spawnDur = spawnDuration;
+    }
+
+    void FixedUpdate(){
+        spawnDur -= Time.deltaTime;
+        firePathDur += Time.deltaTime;
+        startSpeed = startSpeed * drug;
+        transform.position += transform.forward * (startSpeed * Time.deltaTime);
+
+        var heading = transform.position - stepPosition;
+        var distance = heading.magnitude;
+
+        if(distance >= spawnRate && spawnDur > 0){
+            if(craterPrefab != null){
+                Vector3 pos = transform.position;
+                if(Terrain.activeTerrain != null){
+                    pos.y = Terrain.activeTerrain.SampleHeight(transform.position);
+                }
+
+                var craterInstance = Instantiate(craterPrefab, pos, Quaternion.identity);
+                var craterPs = craterInstance.GetComponent<ParticleSystem>();
+
+                if(craterPs != null){
+                    Destroy(craterInstance, craterPs.main.duration);
+                }else{
+                    var flashPsParts = craterInstance.transform.GetChild(0).GetComponent<ParticleSystem>();
+                    Destroy(craterInstance, flashPsParts.main.duration);
+                }
+            }
+            stepPosition = transform.position;
+        }
+
+        if(firePathDur >= pivotPs.main.duration){
+            transform.position = pivot.position;
+            firePathDur = 0f;
+        }
     }
 }
