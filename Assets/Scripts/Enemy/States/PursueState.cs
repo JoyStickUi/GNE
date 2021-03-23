@@ -10,6 +10,10 @@ public class PursueState : EnemyState
 
             enemyManager.enemyLocomotion.HandleMoveToTarget();  
             
+            if(Random.Range(0f, 10f) > 5f){
+                return GetComponent<SwampAttackState>();
+            }
+
             if(enemyManager.enemyLocomotion.distanceFromTarget <= enemyManager.enemyLocomotion.stoppingDistance){
                 return GetComponent<StuffAttackState>();
             }
