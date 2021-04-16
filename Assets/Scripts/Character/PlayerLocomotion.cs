@@ -36,6 +36,7 @@ public class PlayerLocomotion : MonoBehaviour
     float rotationSpeed = 10;
     [SerializeField]
     float fallingSpeed = 45;
+    float movementSpeedModiefier = 1f;
 
     void Start()
     {
@@ -49,6 +50,10 @@ public class PlayerLocomotion : MonoBehaviour
 
         playerManager.isGrounded = true;
         ignoreForGroundCheck = ~(1 << 8 | 1 << 11);
+    }
+
+    public void ChangeSpeedModifier(float modifier){
+        movementSpeedModiefier = modifier;
     }
 
     #region Movement
@@ -87,15 +92,15 @@ public class PlayerLocomotion : MonoBehaviour
         moveDirection.Normalize();
         moveDirection.y = 0;
 
-        float speed = movementSpeed;
+        float speed = movementSpeed * movementSpeedModiefier;
 
         if(inputHandler.sprintFlag && inputHandler.moveAmount > 0.5f){
-            speed = sprintSpeed;
+            speed = sprintSpeed * movementSpeedModiefier;
             playerManager.isSprinting = true;
             moveDirection *= speed;
         }else{
             if(inputHandler.moveAmount < 0.5){
-                moveDirection *= walkingSpeed;
+                moveDirection *= (walkingSpeed * movementSpeedModiefier);
             }else{
                 moveDirection *= speed;
             }

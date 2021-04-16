@@ -30,8 +30,8 @@ public class EnemyLocomotion : MonoBehaviour
     }
 
     public void HandleMoveToTarget(){
-        if(enemyManager.isInteracting)
-            return;
+        // if(enemyManager.isInteracting)
+        //     return;
 
         Vector3 targetDirection = enemyManager.currentTarget.transform.position - transform.position;
         distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position);
