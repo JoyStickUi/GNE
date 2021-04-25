@@ -2,28 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Swamp : MonoBehaviour
+public class Swamp : EffectInfluencer
 {
     private float damageCooldownTime = 1f;
     private float damageCooldownTimer;
+    private int damagePerSecond = 1;
 
     void Start(){
         damageCooldownTimer = damageCooldownTime;
     }
 
-    void OnTriggerEnter(Collider other){
-        other.gameObject.GetComponent<PlayerLocomotion>().ChangeSpeedModifier(0.25f);
+    public override void InfluenceEn(PlayerManager playerManager){
+        playerManager.playerLocomotion.ChangeSpeedModifier(0.25f);
     }
 
-    void OnTriggerStay(Collider other){
+    public override void InfluenceSt(PlayerManager playerManager){
         damageCooldownTimer -= Time.deltaTime;
         if(damageCooldownTimer < 0f){
-            other.gameObject.GetComponent<PlayerStats>().TakeDamage(1);
+            playerManager.playerStats.TakeDamage(damagePerSecond);
             damageCooldownTimer = damageCooldownTime;
         }
     }
 
-    void OnTriggerExit(Collider other){
-        other.gameObject.GetComponent<PlayerLocomotion>().ChangeSpeedModifier(1f);
+    public override void InfluenceEx(PlayerManager playerManager){
+        playerManager.playerLocomotion.ChangeSpeedModifier(1f);
     }
 }

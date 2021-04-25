@@ -14,9 +14,9 @@ public class PursueState : EnemyState
                 return GetComponent<SwampAttackState>();
             }
 
-            if(enemyManager.enemyLocomotion.distanceFromTarget <= enemyManager.enemyLocomotion.stoppingDistance){
-                return GetComponent<StuffAttackState>();
-            }
+            // if(enemyManager.enemyLocomotion.distanceFromTarget <= enemyManager.enemyLocomotion.stoppingDistance){
+            //     return GetComponent<StuffAttackState>();
+            // }
 
             return this;
         }

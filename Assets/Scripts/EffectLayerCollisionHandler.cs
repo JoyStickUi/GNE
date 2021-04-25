@@ -4,13 +4,27 @@ using UnityEngine;
 
 public class EffectLayerCollisionHandler : MonoBehaviour
 {
-    void OnTriggerEnter(Collision other){
+    public PlayerManager playerManager;
+
+    void Awake(){
+        playerManager = GetComponent<PlayerManager>();
+    }
+
+    void OnTriggerEnter(Collider other){
         if(other.gameObject.layer == LayerMask.NameToLayer("Effect")){
-            
+            other.gameObject.GetComponent<EffectInfluencer>().InfluenceEn(playerManager);
         }
     }
 
-    void OnParticleCollision(GameObject other){
-        
+    void OnTriggerStay(Collider other){
+        if(other.gameObject.layer == LayerMask.NameToLayer("Effect")){
+            other.gameObject.GetComponent<EffectInfluencer>().InfluenceSt(playerManager);
+        }
+    }
+
+    void OnTriggerExit(Collider other){
+        if(other.gameObject.layer == LayerMask.NameToLayer("Effect")){
+            other.gameObject.GetComponent<EffectInfluencer>().InfluenceEx(playerManager);
+        }
     }
 }

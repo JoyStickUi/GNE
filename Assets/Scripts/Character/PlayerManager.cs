@@ -5,9 +5,12 @@ public class PlayerManager : MonoBehaviour
     public Transform lockOnTransform;
 
     InputHandler inputHandler;
-    Animator anim;
     CameraHandler cameraHandler;
-    PlayerLocomotion playerLocomotion;
+    public PlayerLocomotion playerLocomotion;
+    public PlayerInventory playerInventory;
+    public PlayerAttacker playerAttacker;
+    public PlayerStats playerStats;
+    public AnimatorHandler animatorHandler;
 
     public bool isInteracting;
     [Header("Player Flags")]
@@ -23,16 +26,19 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         inputHandler = GetComponent<InputHandler>();
-        anim = GetComponentInChildren<Animator>();
         playerLocomotion = GetComponent<PlayerLocomotion>();
+        playerInventory = GetComponent<PlayerInventory>();
+        playerAttacker = GetComponent<PlayerAttacker>();
+        playerStats = GetComponent<PlayerStats>();
+        animatorHandler = GetComponentInChildren<AnimatorHandler>();
     }
 
     void Update()
     {
         float delta = Time.deltaTime;
 
-        isInteracting = anim.GetBool("isInteracting");
-        canCombo = anim.GetBool("canCombo");
+        isInteracting = animatorHandler.anim.GetBool("isInteracting");
+        canCombo = animatorHandler.anim.GetBool("canCombo");
 
         inputHandler.TickInput(delta); 
         playerLocomotion.HandleRollingAndSprinting(delta);       

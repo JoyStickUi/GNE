@@ -4,8 +4,6 @@ public class AnimatorHandler : MonoBehaviour
 {
     PlayerManager playerManager;
     public Animator anim;
-    InputHandler inputHandler; 
-    PlayerLocomotion playerLocomotion;
     int vertical;
     int horizontal;
     public bool canRotate;
@@ -13,8 +11,6 @@ public class AnimatorHandler : MonoBehaviour
     public void Initialize(){
         playerManager = GetComponentInParent<PlayerManager>();
         anim = GetComponent<Animator>();
-        inputHandler = GetComponentInParent<InputHandler>();
-        playerLocomotion = GetComponentInParent<PlayerLocomotion>();
         vertical = Animator.StringToHash("Vertical");
         horizontal = Animator.StringToHash("Horizontal");
     }
@@ -87,10 +83,10 @@ public class AnimatorHandler : MonoBehaviour
             return;
 
         float delta = Time.deltaTime;
-        playerLocomotion.rigidbody.drag = 0;
+        playerManager.playerLocomotion.rigidbody.drag = 0;
         Vector3 deltaPosition = anim.deltaPosition;
         deltaPosition.y = 0;
         Vector3 velocity = deltaPosition / delta;
-        playerLocomotion.rigidbody.velocity = velocity;
+        playerManager.playerLocomotion.rigidbody.velocity = velocity;
     }
 }
