@@ -11,20 +11,21 @@ public class EffectLayerCollisionHandler : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other){
+        other.gameObject.GetComponent<EffectInfluencer>().SetManager(playerManager);
         if(other.gameObject.layer == LayerMask.NameToLayer("Effect")){
-            other.gameObject.GetComponent<EffectInfluencer>().InfluenceEn(playerManager);
+            other.gameObject.GetComponent<EffectInfluencer>().InfluenceEn();
         }
     }
 
     void OnTriggerStay(Collider other){
         if(other.gameObject.layer == LayerMask.NameToLayer("Effect")){
-            other.gameObject.GetComponent<EffectInfluencer>().InfluenceSt(playerManager);
+            other.gameObject.GetComponent<EffectInfluencer>().InfluenceSt();
         }
     }
 
     void OnTriggerExit(Collider other){
         if(other.gameObject.layer == LayerMask.NameToLayer("Effect")){
-            other.gameObject.GetComponent<EffectInfluencer>().InfluenceEx(playerManager);
+            other.gameObject.GetComponent<EffectInfluencer>().InfluenceEx();
         }
     }
 }

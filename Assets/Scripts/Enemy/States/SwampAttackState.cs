@@ -31,7 +31,8 @@ public class SwampAttackState : EnemyState
             swampPos.y = Terrain.activeTerrain.SampleHeight(swampPos) + 0.1f;
 
             GameObject swamp = Instantiate(swampPrefab, swampPos, Quaternion.identity);
-            Destroy(swamp, swampLifetime);
+            swamp.GetComponent<Swamp>().swampLifetime = swampLifetime;
+            // Destroy(swamp, swampLifetime);
             cooldownTimer = cooldownTime;
         }       
 

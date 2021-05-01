@@ -4,7 +4,13 @@ using UnityEngine;
 
 public abstract class EffectInfluencer : MonoBehaviour
 {
-    public abstract void InfluenceEn(PlayerManager playerManager);
-    public abstract void InfluenceSt(PlayerManager playerManager);
-    public abstract void InfluenceEx(PlayerManager playerManager);
+    protected PlayerManager playerManager;
+    public abstract void InfluenceEn();
+    public abstract void InfluenceSt();
+    public abstract void InfluenceEx();
+    public abstract void Reset();
+    public void SetManager(PlayerManager plm)
+    {
+        playerManager = plm;
+    }
 }

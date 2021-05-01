@@ -6,17 +6,24 @@ public class Swamp : EffectInfluencer
 {
     private float damageCooldownTime = 1f;
     private float damageCooldownTimer;
-    private int damagePerSecond = 1;
+    public float swampLifetime = 9f;
+    public int damagePerSecond = 1;
 
     void Start(){
         damageCooldownTimer = damageCooldownTime;
+        Destroy(this.transform.gameObject, swampLifetime);
     }
 
-    public override void InfluenceEn(PlayerManager playerManager){
+    public override void Reset(){
+        playerManager.playerLocomotion.ChangeSpeedModifier(1f);
+    }
+
+    public override void InfluenceEn(){
         playerManager.playerLocomotion.ChangeSpeedModifier(0.25f);
     }
 
-    public override void InfluenceSt(PlayerManager playerManager){
+    public override void InfluenceSt(){
+        playerManager.playerLocomotion.ChangeSpeedModifier(0.25f);
         damageCooldownTimer -= Time.deltaTime;
         if(damageCooldownTimer < 0f){
             playerManager.playerStats.TakeDamage(damagePerSecond);
@@ -24,7 +31,11 @@ public class Swamp : EffectInfluencer
         }
     }
 
-    public override void InfluenceEx(PlayerManager playerManager){
-        playerManager.playerLocomotion.ChangeSpeedModifier(1f);
+    public override void InfluenceEx(){
+        Reset();
+    }
+
+    void OnDestroy(){
+        Reset();
     }
 }

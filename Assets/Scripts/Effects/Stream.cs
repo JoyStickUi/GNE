@@ -6,15 +6,19 @@ public class Stream : EffectInfluencer
 {
     private int craterDamage = 80;
 
-    public override void InfluenceEn(PlayerManager playerManager){
+    public override void InfluenceEn(){
         playerManager.playerStats.TakeDamage(craterDamage);
     }
 
-    public override void InfluenceSt(PlayerManager playerManager){
+    public override void InfluenceSt(){
         
     }
 
-    public override void InfluenceEx(PlayerManager playerManager){
+    public override void InfluenceEx(){
         
     } 
+
+    public override void Reset(){
+
+    }
 }
