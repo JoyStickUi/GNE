@@ -32,10 +32,12 @@ public class Swamp : EffectInfluencer
     }
 
     public override void InfluenceEx(){
-        Reset();
+        if(playerManager != null)
+            Reset();
     }
 
     void OnDestroy(){
-        Reset();
+        if(playerManager != null)
+            Reset();
     }
 }

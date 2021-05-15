@@ -11,8 +11,8 @@ public class EffectLayerCollisionHandler : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other){
-        other.gameObject.GetComponent<EffectInfluencer>().SetManager(playerManager);
         if(other.gameObject.layer == LayerMask.NameToLayer("Effect")){
+            other.gameObject.GetComponent<EffectInfluencer>().SetManager(playerManager);
             other.gameObject.GetComponent<EffectInfluencer>().InfluenceEn();
         }
     }
