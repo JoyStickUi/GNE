@@ -13,6 +13,7 @@ public class InputHandler : MonoBehaviour
     public bool rt_Input;
     public bool lockOnInput;
 
+    public bool pauseFlag;
     public bool rollFlag;
     public bool sprintFlag;
     public bool comboFlag;
@@ -24,6 +25,7 @@ public class InputHandler : MonoBehaviour
     PlayerInventory playerInventory;
     PlayerManager playerManager;
     CameraHandler cameraHandler; 
+    PauseMenu pauseMenu;
 
     Vector2 movementInput;
     Vector2 cameraInput;
@@ -33,6 +35,7 @@ public class InputHandler : MonoBehaviour
         playerInventory = GetComponent<PlayerInventory>();
         playerManager = GetComponent<PlayerManager>();
         cameraHandler = FindObjectOfType<CameraHandler>();
+        pauseMenu = FindObjectOfType<PauseMenu>();
     }
 
     public void OnEnable(){
@@ -43,6 +46,7 @@ public class InputHandler : MonoBehaviour
             inputActions.PlayerActions.RB.performed += i => rb_Input = true;
             inputActions.PlayerActions.RT.performed += i => rt_Input = true;
             inputActions.PlayerActions.LockOn.performed += i => lockOnInput = true;
+            inputActions.PlayerPause.pauseKey.performed += i => pauseFlag = true;
         }
 
         inputActions.Enable();
@@ -53,6 +57,7 @@ public class InputHandler : MonoBehaviour
     }
 
     public void TickInput(float delta){
+        HandlePause();
         MoveInput(delta);
         HandleRollInput(delta);
         HandleAttackInput(delta);
@@ -120,6 +125,13 @@ public class InputHandler : MonoBehaviour
             lockOnInput = false;
             lockOnFlag = false;
             cameraHandler.ClearLockOnTargets();
+        }
+    }
+
+    private void HandlePause(){
+        if(pauseFlag){
+            pauseMenu.PauseNResume();
+            pauseFlag = false;
         }
     }
 }

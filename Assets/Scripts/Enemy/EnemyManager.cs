@@ -11,6 +11,7 @@ public class EnemyManager : MonoBehaviour
     public EnemyStats enemyStats;
 
     private bool _isInteracting;
+    private bool _isAttack;
 
     public bool isInteracting{
         get{
@@ -20,6 +21,17 @@ public class EnemyManager : MonoBehaviour
         set{
             enemyAnimatorHandler.anim.SetBool("isInteracting", value);
             _isInteracting = value;
+        }
+    }
+
+    public bool isAttack{
+        get{
+            _isAttack = enemyAnimatorHandler.anim.GetBool("isAttack");
+            return _isAttack;
+        }
+        set{
+            enemyAnimatorHandler.anim.SetBool("isAttack", value);
+            _isAttack = value;
         }
     }
 

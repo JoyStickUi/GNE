@@ -8,8 +8,12 @@ public class PursueState : EnemyState
         if(enemyManager.currentTarget != null){
             enemyManager.enemyLocomotion.distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position);
 
-            enemyManager.enemyLocomotion.HandleMoveToTarget();  
+            if(!enemyManager.isInteracting){
+                enemyManager.enemyLocomotion.HandleMoveToTarget();  
+            }
             
+            //PLACE FOR NEURAL NETWORK ACTIVATION
+
             if(Random.Range(0f, 10f) > 5f){
                 return GetComponent<SwampAttackState>();
             }

@@ -86,7 +86,9 @@ public class AnimatorHandler : MonoBehaviour
         playerManager.playerLocomotion.rigidbody.drag = 0;
         Vector3 deltaPosition = anim.deltaPosition;
         deltaPosition.y = 0;
-        Vector3 velocity = deltaPosition / delta;
-        playerManager.playerLocomotion.rigidbody.velocity = velocity;
+        if(delta != 0){
+            Vector3 velocity = deltaPosition / delta;
+            playerManager.playerLocomotion.rigidbody.velocity = velocity;
+        }
     }
 }

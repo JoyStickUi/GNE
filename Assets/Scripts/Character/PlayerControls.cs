@@ -209,6 +209,33 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Player Pause"",
+            ""id"": ""9bc87ab0-cb90-480d-9e5e-27ccd0cd0ee1"",
+            ""actions"": [
+                {
+                    ""name"": ""pauseKey"",
+                    ""type"": ""Button"",
+                    ""id"": ""3552d483-e2dd-439b-8989-64f69517e80e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""bfb24111-4099-4147-838c-39387452a017"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""pauseKey"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -223,6 +250,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_PlayerActions_RB = m_PlayerActions.FindAction("RB", throwIfNotFound: true);
         m_PlayerActions_RT = m_PlayerActions.FindAction("RT", throwIfNotFound: true);
         m_PlayerActions_LockOn = m_PlayerActions.FindAction("LockOn", throwIfNotFound: true);
+        // Player Pause
+        m_PlayerPause = asset.FindActionMap("Player Pause", throwIfNotFound: true);
+        m_PlayerPause_pauseKey = m_PlayerPause.FindAction("pauseKey", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -366,6 +396,39 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         }
     }
     public PlayerActionsActions @PlayerActions => new PlayerActionsActions(this);
+
+    // Player Pause
+    private readonly InputActionMap m_PlayerPause;
+    private IPlayerPauseActions m_PlayerPauseActionsCallbackInterface;
+    private readonly InputAction m_PlayerPause_pauseKey;
+    public struct PlayerPauseActions
+    {
+        private @PlayerControls m_Wrapper;
+        public PlayerPauseActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @pauseKey => m_Wrapper.m_PlayerPause_pauseKey;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerPause; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PlayerPauseActions set) { return set.Get(); }
+        public void SetCallbacks(IPlayerPauseActions instance)
+        {
+            if (m_Wrapper.m_PlayerPauseActionsCallbackInterface != null)
+            {
+                @pauseKey.started -= m_Wrapper.m_PlayerPauseActionsCallbackInterface.OnPauseKey;
+                @pauseKey.performed -= m_Wrapper.m_PlayerPauseActionsCallbackInterface.OnPauseKey;
+                @pauseKey.canceled -= m_Wrapper.m_PlayerPauseActionsCallbackInterface.OnPauseKey;
+            }
+            m_Wrapper.m_PlayerPauseActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @pauseKey.started += instance.OnPauseKey;
+                @pauseKey.performed += instance.OnPauseKey;
+                @pauseKey.canceled += instance.OnPauseKey;
+            }
+        }
+    }
+    public PlayerPauseActions @PlayerPause => new PlayerPauseActions(this);
     public interface IPlayerMovementActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -377,5 +440,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnRB(InputAction.CallbackContext context);
         void OnRT(InputAction.CallbackContext context);
         void OnLockOn(InputAction.CallbackContext context);
+    }
+    public interface IPlayerPauseActions
+    {
+        void OnPauseKey(InputAction.CallbackContext context);
     }
 }

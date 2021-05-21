@@ -25,6 +25,7 @@ public class PlayerManager : MonoBehaviour
     
     void Start()
     {
+        Cursor.visible = false;
         inputHandler = GetComponent<InputHandler>();
         playerLocomotion = GetComponent<PlayerLocomotion>();
         playerInventory = GetComponent<PlayerInventory>();

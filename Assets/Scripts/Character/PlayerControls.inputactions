@@ -196,6 +196,33 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Player Pause",
+            "id": "9bc87ab0-cb90-480d-9e5e-27ccd0cd0ee1",
+            "actions": [
+                {
+                    "name": "pauseKey",
+                    "type": "Button",
+                    "id": "3552d483-e2dd-439b-8989-64f69517e80e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "bfb24111-4099-4147-838c-39387452a017",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "pauseKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

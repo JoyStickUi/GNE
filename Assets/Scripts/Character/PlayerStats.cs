@@ -14,9 +14,11 @@ public class PlayerStats : CharacterStats
     public StaminaBar staminaBar;
 
     AnimatorHandler animatorHandler;
+    PlayerDeathHandler playerDeathHandler;
 
     private void Awake(){
         animatorHandler = GetComponentInChildren<AnimatorHandler>();
+        playerDeathHandler = GetComponent<PlayerDeathHandler>();
     }
 
     void Start()
@@ -48,6 +50,7 @@ public class PlayerStats : CharacterStats
         if(currentHealth <= 0){
             currentHealth = 0;
             animatorHandler.PlayTargetAnimation("Dead", false);
+            playerDeathHandler.Handle();
         }
     }
 

@@ -20,6 +20,10 @@ public class EnemyAnimatorHandler : MonoBehaviour
         anim.CrossFade(targetAnim, 0.2f);
     }
 
+    public void AttackAnimationTrigger(){
+        anim.SetBool("isAttack", true);
+    }
+    
     private void OnAnimatorMove(){
         float delta = Time.deltaTime;
         enemyManager.enemyLocomotion.rb.drag = 0;

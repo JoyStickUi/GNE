@@ -22,6 +22,14 @@ public class SwampAttackState : EnemyState
         cooldownTimer -= Time.deltaTime;
 
         if(swampPrefab != null && cooldownTimer < 0f){
+            //swamp attack animation
+            enemyManager.enemyAnimatorHandler.PlayTargetAnimation("high_cast", true);
+
+            cooldownTimer = cooldownTime;
+        }    
+
+        if(!enemyManager.isInteracting && enemyManager.isAttack){
+            //swamp object spawn
             Vector3 swampPos = new Vector3(
                 transform.position.x + (Random.Range(minSwampSpawnDistance, maxSwampSpawnDistance) * Random.Range(-1f, 1f)),
                 transform.position.y,
@@ -29,12 +37,12 @@ public class SwampAttackState : EnemyState
             );
 
             swampPos.y = Terrain.activeTerrain.SampleHeight(swampPos) + 0.1f;
-
+            
             GameObject swamp = Instantiate(swampPrefab, swampPos, Quaternion.identity);
             swamp.GetComponent<Swamp>().swampLifetime = swampLifetime;
-            // Destroy(swamp, swampLifetime);
-            cooldownTimer = cooldownTime;
-        }       
+            
+            enemyManager.isAttack = false;
+        }   
 
         return GetComponent<IdleState>();
     }
