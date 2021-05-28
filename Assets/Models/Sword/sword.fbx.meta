@@ -3,7 +3,27 @@ guid: b33377cd5bcc150478db13468ef4a6c9
 ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Blade
+    second: {fileID: 2100000, guid: 8c3643fbff3068d489b495eb80d66f0d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Protector
+    second: {fileID: 2100000, guid: f7dfa5e7ab18b704199ef526e3a826ab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bandage
+    second: {fileID: 2100000, guid: 970ef532143d41f42a97cc64a0c21633, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: grip
+    second: {fileID: 2100000, guid: 4313efd8b1fb2354db67618948aaa93b, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

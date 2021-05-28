@@ -5,6 +5,7 @@ public class EnemyStats : CharacterStats
     public int healthLevel = 10;
     public int maxHealth;
     public int currentHealth;
+    public bool isHitted = false;
 
     AnimatorHandler animatorHandler;
 
@@ -29,6 +30,7 @@ public class EnemyStats : CharacterStats
     public void TakeDamage(int damage){
         currentHealth = currentHealth - damage;
         bossHealthBar.SetCurrentHealth(currentHealth);
+        isHitted = true;
         // animatorHandler.PlayTargetAnimation("Damage", true);
 
         if(currentHealth <= 0){

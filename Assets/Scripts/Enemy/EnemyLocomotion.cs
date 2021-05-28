@@ -16,6 +16,9 @@ public class EnemyLocomotion : MonoBehaviour
 
     public float distanceFromTarget;
     public float stoppingDistance = 2f;
+    public float keepOffsetDistance = 5f;
+    public Vector3 figthZoneCenter;
+    public float figthZoneRadius = 1f;
 
     void Awake(){
         enemyManager = GetComponent<EnemyManager>();
@@ -30,17 +33,12 @@ public class EnemyLocomotion : MonoBehaviour
     }
 
     public void HandleMoveToTarget(){
-        // if(enemyManager.isInteracting)
-        //     return;
-
-        Vector3 targetDirection = enemyManager.currentTarget.transform.position - transform.position;
-        distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position);
-        float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
-
         if(enemyManager.isInteracting){
             enemyManager.enemyAnimatorHandler.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
             navMeshAgent.enabled = false;
         }else{
+            distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position);
+
             if(distanceFromTarget > stoppingDistance){
                 enemyManager.enemyAnimatorHandler.anim.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
             }
@@ -53,6 +51,47 @@ public class EnemyLocomotion : MonoBehaviour
 
         navMeshAgent.transform.localPosition = Vector3.zero;
         navMeshAgent.transform.localRotation = Quaternion.identity;
+    }
+
+    public void HandleKeepOffsetFromTarget(){
+        if(enemyManager.isInteracting){
+            enemyManager.enemyAnimatorHandler.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+            navMeshAgent.enabled = false;
+        }else{
+            distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position);
+
+            if(distanceFromTarget < keepOffsetDistance){
+                TeleportIfHitted();
+                enemyManager.enemyAnimatorHandler.anim.SetFloat("Vertical", -1, 0.1f, Time.deltaTime);
+            }
+            else if(distanceFromTarget >= keepOffsetDistance){
+                enemyManager.enemyAnimatorHandler.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+            }
+        }
+
+        HandleRotateTowardsTarget();
+
+        navMeshAgent.transform.localPosition = Vector3.zero;
+        navMeshAgent.transform.localRotation = Quaternion.identity;
+    }
+
+    private void TeleportIfHitted(){
+        if(enemyManager.enemyStats.isHitted){
+            Vector3 randomPosition = figthZoneCenter;
+            randomPosition.x += Random.Range(-figthZoneRadius, figthZoneRadius);
+            randomPosition.z += Random.Range(-figthZoneRadius, figthZoneRadius);
+
+            float calculatedY = Terrain.activeTerrain.SampleHeight(randomPosition);
+
+            randomPosition.y = calculatedY;
+
+            if(calculatedY > 9f && calculatedY < 11f){
+                transform.position = randomPosition;
+            }else{
+                transform.position = figthZoneCenter;
+            }
+            enemyManager.enemyStats.isHitted = false;
+        }
     }
 
     private void HandleRotateTowardsTarget(){  

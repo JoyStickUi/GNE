@@ -13,6 +13,8 @@ public class PlayerStats : CharacterStats
     public HealthBar healthbar;
     public StaminaBar staminaBar;
 
+    bool isInvincible = false;
+
     AnimatorHandler animatorHandler;
     PlayerDeathHandler playerDeathHandler;
 
@@ -42,15 +44,25 @@ public class PlayerStats : CharacterStats
         return maxStamina;
     }
 
-    public void TakeDamage(int damage){
-        currentHealth = currentHealth - damage;
-        healthbar.SetCurrentHealth(currentHealth);
-        animatorHandler.PlayTargetAnimation("Damage", true);
+    public void EnableInv(){
+        isInvincible = true;
+    }
 
-        if(currentHealth <= 0){
-            currentHealth = 0;
-            animatorHandler.PlayTargetAnimation("Dead", false);
-            playerDeathHandler.Handle();
+    public void DisableInv(){
+        isInvincible = false;
+    }
+
+    public void TakeDamage(int damage){
+        if(!isInvincible){
+            currentHealth = currentHealth - damage;
+            healthbar.SetCurrentHealth(currentHealth);
+            animatorHandler.PlayTargetAnimation("Damage", true);
+
+            if(currentHealth <= 0){
+                currentHealth = 0;
+                animatorHandler.PlayTargetAnimation("Dead", false);
+                playerDeathHandler.Handle();
+            }
         }
     }
 

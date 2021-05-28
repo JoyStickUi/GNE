@@ -18,6 +18,9 @@ public class IdleState : EnemyState
     public override EnemyState Tick(EnemyManager enemyManager){
         if(enemyManager.currentTarget != null && enemyManager.currentPhase.keyState == EnemyPhase.MAIN_STATES.Pursue)
             return GetComponent<PursueState>();
+
+        if(enemyManager.currentTarget != null && enemyManager.currentPhase.keyState == EnemyPhase.MAIN_STATES.KeepOffset)
+            return GetComponent<KeepOffsetState>();
             
         HandleDetection(enemyManager);
 

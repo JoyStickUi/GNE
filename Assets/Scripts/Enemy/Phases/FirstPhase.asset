@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a6b91157d1d43d4299f03e090cd3871, type: 3}
   m_Name: FirstPhase
   m_EditorClassIdentifier: 
-  keyState: 0
+  keyState: 2

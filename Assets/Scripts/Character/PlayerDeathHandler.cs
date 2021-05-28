@@ -7,6 +7,8 @@ public class PlayerDeathHandler : MonoBehaviour
     [SerializeField]
     DeathScreenUIController deathScreenUIController;
     public void Handle(){
+        Time.timeScale = 0;
+        Cursor.visible = true;
         deathScreenUIController.Show();
     }
 }

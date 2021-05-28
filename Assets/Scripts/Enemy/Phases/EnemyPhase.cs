@@ -7,7 +7,8 @@ public class EnemyPhase : ScriptableObject
 {
     public enum MAIN_STATES{
         Pursue,
-        Idle
+        Idle,
+        KeepOffset
     }
     public MAIN_STATES keyState ;
 }

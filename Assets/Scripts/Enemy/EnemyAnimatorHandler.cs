@@ -23,7 +23,7 @@ public class EnemyAnimatorHandler : MonoBehaviour
     public void AttackAnimationTrigger(){
         anim.SetBool("isAttack", true);
     }
-    
+
     private void OnAnimatorMove(){
         float delta = Time.deltaTime;
         enemyManager.enemyLocomotion.rb.drag = 0;

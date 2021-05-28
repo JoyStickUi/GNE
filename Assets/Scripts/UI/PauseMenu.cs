@@ -8,6 +8,10 @@ public class PauseMenu : MonoBehaviour
     LevelLoader levelLoader;
     bool isPause = false;
 
+    void Awake(){
+        Time.timeScale = 1;
+    }
+
     public void PauseNResume(){
         isPause = !isPause;
         if(isPause){

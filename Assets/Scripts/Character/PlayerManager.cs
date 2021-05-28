@@ -42,7 +42,7 @@ public class PlayerManager : MonoBehaviour
         canCombo = animatorHandler.anim.GetBool("canCombo");
 
         inputHandler.TickInput(delta); 
-        playerLocomotion.HandleRollingAndSprinting(delta);       
+        playerLocomotion.HandleRolling(delta);       
     }
 
     private void FixedUpdate(){

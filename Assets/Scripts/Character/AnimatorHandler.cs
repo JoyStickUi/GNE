@@ -91,4 +91,8 @@ public class AnimatorHandler : MonoBehaviour
             playerManager.playerLocomotion.rigidbody.velocity = velocity;
         }
     }
+
+    public void Death(){
+        Time.timeScale = 0;
+    }
 }

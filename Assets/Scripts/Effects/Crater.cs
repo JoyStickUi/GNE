@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Crater : EffectInfluencer
 {
-    private int craterDamage = 100;
-
+    [SerializeField]
+    private int damage = 100;
     public override void InfluenceEn(){
-        playerManager.playerStats.TakeDamage(craterDamage);
+        playerManager.playerStats.TakeDamage(damage);
     }
 
     public override void InfluenceSt(){

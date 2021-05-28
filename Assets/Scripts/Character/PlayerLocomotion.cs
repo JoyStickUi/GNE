@@ -117,7 +117,7 @@ public class PlayerLocomotion : MonoBehaviour
         }
     }
 
-    public void HandleRollingAndSprinting(float delta){
+    public void HandleRolling(float delta){
         if(animatorHandler.anim.GetBool("isInteracting"))
             return;
 
@@ -131,7 +131,7 @@ public class PlayerLocomotion : MonoBehaviour
                 Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
                 myTransform.rotation = rollRotation;
             }else{
-                animatorHandler.PlayTargetAnimation("Damage", true); // make step back from the wall
+                animatorHandler.PlayTargetAnimation("Damage", true); // makes step back from the wall
             }
         }
     }
@@ -178,8 +178,8 @@ public class PlayerLocomotion : MonoBehaviour
                 playerManager.isGrounded = false;
             }
             
-            if(playerManager.isInAir == false){
-                if(playerManager.isInteracting == false){
+            if(!playerManager.isInAir){
+                if(!playerManager.isInteracting){
                     animatorHandler.PlayTargetAnimation("Falling", true);
                 }
 

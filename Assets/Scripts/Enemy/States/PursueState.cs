@@ -14,12 +14,8 @@ public class PursueState : EnemyState
             
             //PLACE FOR NEURAL NETWORK ACTIVATION
 
-            if(Random.Range(0f, 10f) > 5f){
-                return GetComponent<SwampAttackState>();
-            }
-
-            // if(enemyManager.enemyLocomotion.distanceFromTarget <= enemyManager.enemyLocomotion.stoppingDistance){
-            //     return GetComponent<StuffAttackState>();
+            // if(Random.Range(0f, 10f) > 5f){
+            //     return GetComponent<SwampAttackState>();
             // }
 
             return this;

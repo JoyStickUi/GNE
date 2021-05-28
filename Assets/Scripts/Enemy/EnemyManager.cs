@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
@@ -9,6 +10,7 @@ public class EnemyManager : MonoBehaviour
     public EnemyAnimatorHandler enemyAnimatorHandler;
     public EnemyStateHandler enemyStateHandler;
     public EnemyStats enemyStats;
+    public NeuralNetwork brain;
 
     private bool _isInteracting;
     private bool _isAttack;
@@ -44,12 +46,24 @@ public class EnemyManager : MonoBehaviour
     [Header("Phase settings")]
     public EnemyPhase currentPhase;
 
+    void Awake(){
+        brain = new NeuralNetwork();
+    }
+
     void Start(){
         enemyLocomotion = GetComponent<EnemyLocomotion>();
         enemyAttacker = GetComponent<EnemyAttacker>();
         enemyAnimatorHandler = GetComponentInChildren<EnemyAnimatorHandler>();
         enemyStateHandler = GetComponent<EnemyStateHandler>();
         enemyStats = GetComponent<EnemyStats>();
+
+        brain.AddLayer(3, 10);
+        brain.AddLayer(10, 1);
+        Debug.Log(JsonUtility.FromJson<NetworkData>(Resources.Load<TextAsset>("data").text).FromJson()[0]._neurons[0]._bias);
+    }
+
+    public void ReGetAnimHandler(){
+        enemyAnimatorHandler = GetComponentInChildren<EnemyAnimatorHandler>();
     }
 
     void Update(){
