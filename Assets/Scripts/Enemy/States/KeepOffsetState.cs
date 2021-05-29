@@ -11,12 +11,14 @@ public class KeepOffsetState : EnemyState
             if(!enemyManager.isInteracting){
                 enemyManager.enemyLocomotion.HandleKeepOffsetFromTarget();  
             }
-            
-            //PLACE FOR NEURAL NETWORK ACTIVATION
 
             if(enemyManager.enemyStats.currentHealth <= 50){
                 return GetComponent<PhaseChangingState>();
             }
+
+            //PLACE FOR NEURAL NETWORK ACTIVATION
+
+            return GetComponent<FireballAttackState>();
 
             return this;
         }

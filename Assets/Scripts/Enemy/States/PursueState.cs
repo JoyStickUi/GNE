@@ -13,7 +13,7 @@ public class PursueState : EnemyState
             }
             
             //PLACE FOR NEURAL NETWORK ACTIVATION
-
+            return GetComponent<HorizontalSliceState>();
             // if(Random.Range(0f, 10f) > 5f){
             //     return GetComponent<SwampAttackState>();
             // }
