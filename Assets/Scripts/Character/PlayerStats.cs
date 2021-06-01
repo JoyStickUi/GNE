@@ -9,6 +9,7 @@ public class PlayerStats : CharacterStats
     public int staminaLevel = 10;
     public int maxStamina;
     public int currentStamina;
+    public int staminaRegenerationAmount = 1;
 
     public HealthBar healthbar;
     public StaminaBar staminaBar;
@@ -72,6 +73,13 @@ public class PlayerStats : CharacterStats
 
         if(currentStamina <= 0){
             currentStamina = 0;
+        }
+    }
+
+    public void RegenerateStamina(){
+        if(currentStamina < maxStamina){
+            currentStamina += staminaRegenerationAmount;
+            staminaBar.SetCurrentStamina(currentStamina);
         }
     }
 }

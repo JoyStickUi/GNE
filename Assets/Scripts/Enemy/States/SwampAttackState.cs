@@ -31,9 +31,9 @@ public class SwampAttackState : EnemyState
         if(!enemyManager.isInteracting && enemyManager.isAttack){
             //swamp object spawn
             Vector3 swampPos = new Vector3(
-                transform.position.x + (Random.Range(minSwampSpawnDistance, maxSwampSpawnDistance) * Random.Range(-1f, 1f)),
-                transform.position.y,
-                transform.position.z + (Random.Range(minSwampSpawnDistance, maxSwampSpawnDistance) * Random.Range(-1f, 1f))
+                enemyManager.targetTransform.position.x + (Random.Range(minSwampSpawnDistance, maxSwampSpawnDistance) * Random.Range(-1f, 1f)),
+                enemyManager.targetTransform.position.y,
+                enemyManager.targetTransform.position.z + (Random.Range(minSwampSpawnDistance, maxSwampSpawnDistance) * Random.Range(-1f, 1f))
             );
 
             swampPos.y = Terrain.activeTerrain.SampleHeight(swampPos) + 0.1f;

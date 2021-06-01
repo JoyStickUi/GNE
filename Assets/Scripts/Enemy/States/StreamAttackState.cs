@@ -33,6 +33,7 @@ public class StreamAttackState : EnemyState
             streamRotation.z = 0;
 
             Vector3 streamPos = transform.position;
+            streamPos.y = 10.5f;
 
             GameObject stream = Instantiate(streamPrefab, streamPos, streamRotation);
             Destroy(stream, streamLifetime);

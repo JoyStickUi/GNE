@@ -31,6 +31,7 @@ public class HorizontalSliceState : EnemyState
             sliceRotation.z = 0;
 
             Vector3 slicePos = transform.position;
+            slicePos.y = 11f;
 
             GameObject slice = Instantiate(slicePrefab, slicePos, sliceRotation);
             Destroy(slice, sliceLifetime);

@@ -12,7 +12,7 @@ public class PlayerLocomotion : MonoBehaviour
     [HideInInspector]
     public AnimatorHandler animatorHandler;
 
-    public new Rigidbody rigidbody;
+    public Rigidbody rigidbody;
     public GameObject normalCamera;
 
     [Header("Ground and air detection stats")]
@@ -37,6 +37,11 @@ public class PlayerLocomotion : MonoBehaviour
     [SerializeField]
     float fallingSpeed = 45;
     float movementSpeedModifier = 1f;
+
+    [Header("Movement stamina cost")]
+    [SerializeField]
+    int sprintCost = 1;
+    int rollCost = 50;
 
     void Start()
     {
@@ -94,7 +99,8 @@ public class PlayerLocomotion : MonoBehaviour
 
         float speed = movementSpeed * movementSpeedModifier;
 
-        if(inputHandler.sprintFlag && inputHandler.moveAmount > 0.5f){
+        if(inputHandler.sprintFlag && inputHandler.moveAmount > 0.5f && sprintCost <= playerManager.playerStats.currentStamina){
+            playerManager.playerStats.TakeStaminaDamage(sprintCost);
             speed = sprintSpeed * movementSpeedModifier;
             playerManager.isSprinting = true;
             moveDirection *= speed;
@@ -121,11 +127,12 @@ public class PlayerLocomotion : MonoBehaviour
         if(animatorHandler.anim.GetBool("isInteracting"))
             return;
 
-        if(inputHandler.rollFlag){
+        if(inputHandler.rollFlag && rollCost <= playerManager.playerStats.currentStamina){
             moveDirection = cameraObject.forward * inputHandler.vertical;
             moveDirection += cameraObject.right * inputHandler.horizontal;
 
             if(inputHandler.moveAmount > 0){
+                playerManager.playerStats.TakeStaminaDamage(rollCost);
                 animatorHandler.PlayTargetAnimation("Rolling", true);
                 moveDirection.y = 0;
                 Quaternion rollRotation = Quaternion.LookRotation(moveDirection);

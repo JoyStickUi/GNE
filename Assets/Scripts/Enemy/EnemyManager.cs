@@ -40,7 +40,7 @@ public class EnemyManager : MonoBehaviour
     [Header("Target settings")]
     public Transform lockOnTransform;
 
-    public CharacterStats currentTarget = null;
+    public PlayerStats currentTarget = null;
     public Transform targetTransform = null;
 
     [Header("Phase settings")]
@@ -59,7 +59,11 @@ public class EnemyManager : MonoBehaviour
 
         brain.AddLayer(3, 10);
         brain.AddLayer(10, 1);
-        Debug.Log(JsonUtility.FromJson<NetworkData>(Resources.Load<TextAsset>("data").text).FromJson()[0]._neurons[0]._bias);
+        brain.LoadTrainedLayers(
+            JsonUtility
+                .FromJson<NetworkData>(Resources.Load<TextAsset>("data").text)
+                .FromJson()
+            );
     }
 
     public void ReGetAnimHandler(){

@@ -12,6 +12,9 @@ public class PhaseChangingState : EnemyState
         enemyManager.currentPhase = secondPhase;
         firstPhaseModel.SetActive(false);
         SecondPhaseModel.SetActive(true);
+        CapsuleCollider collider = GetComponentInParent<CapsuleCollider>();
+        collider.center = new Vector3(collider.center.x, 1.2f, collider.center.z);
+        collider.radius = 1.2f;
         enemyManager.ReGetAnimHandler();
         return GetComponent<IdleState>();
     }

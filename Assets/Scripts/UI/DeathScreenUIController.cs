@@ -14,10 +14,12 @@ public class DeathScreenUIController : MonoBehaviour
     }
 
     public void Retry(){
+        Time.timeScale = 1;
         StartCoroutine(levelLoader.LoadLevel(1));
     }
 
     public void Exit(){
+        Time.timeScale = 1;
         StartCoroutine(levelLoader.LoadLevel(0));
     }
 }

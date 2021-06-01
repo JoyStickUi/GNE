@@ -93,6 +93,8 @@ public class AnimatorHandler : MonoBehaviour
     }
 
     public void Death(){
-        Time.timeScale = 0;
+        if(playerManager.playerStats.currentHealth <= 0){
+            Time.timeScale = 0;
+        }
     }
 }

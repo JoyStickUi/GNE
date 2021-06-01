@@ -31,7 +31,7 @@ public class IdleState : EnemyState
         Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius, detectionLayer);
 
         for(int i = 0; i < colliders.Length; ++i){
-            CharacterStats characterStats = colliders[i].transform.GetComponent<CharacterStats>();
+            PlayerStats characterStats = colliders[i].transform.GetComponent<PlayerStats>();
             Transform characterTransform = colliders[i].transform.GetComponent<Transform>();
 
             if(characterStats != null){

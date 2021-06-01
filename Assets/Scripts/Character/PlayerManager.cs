@@ -4,6 +4,8 @@ public class PlayerManager : MonoBehaviour
 {
     public Transform lockOnTransform;
 
+    public Rigidbody rb;
+
     InputHandler inputHandler;
     CameraHandler cameraHandler;
     public PlayerLocomotion playerLocomotion;
@@ -12,7 +14,17 @@ public class PlayerManager : MonoBehaviour
     public PlayerStats playerStats;
     public AnimatorHandler animatorHandler;
 
-    public bool isInteracting;
+    public bool _isInteracting;
+    public bool isInteracting{
+        get{
+            _isInteracting = animatorHandler.anim.GetBool("isInteracting");
+            return _isInteracting;
+        }
+        set{
+            animatorHandler.anim.SetBool("isInteracting", value);
+            _isInteracting = value;
+        }
+    }
     [Header("Player Flags")]
     public bool isSprinting;
     public bool isInAir;
@@ -32,6 +44,8 @@ public class PlayerManager : MonoBehaviour
         playerAttacker = GetComponent<PlayerAttacker>();
         playerStats = GetComponent<PlayerStats>();
         animatorHandler = GetComponentInChildren<AnimatorHandler>();
+
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -51,6 +65,10 @@ public class PlayerManager : MonoBehaviour
         if(cameraHandler != null){
             cameraHandler.FollowTarget(delta);
             cameraHandler.HandleCameraRotation(delta, inputHandler.mouseX, inputHandler.mouseY);
+        }
+
+        if(!isInteracting){
+            playerStats.RegenerateStamina();
         }
 
         playerLocomotion.HandleMovement(delta);

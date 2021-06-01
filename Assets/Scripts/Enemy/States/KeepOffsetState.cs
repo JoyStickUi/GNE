@@ -17,6 +17,11 @@ public class KeepOffsetState : EnemyState
             }
 
             //PLACE FOR NEURAL NETWORK ACTIVATION
+            List<float> inputs = new List<float>();
+            inputs.Add(Vector3.Distance(enemyManager.targetTransform.position, transform.position));
+            inputs.Add(enemyManager.currentTarget.currentHealth);
+            inputs.Add(enemyManager.currentTarget.currentStamina);
+            float brainOutput = enemyManager.brain.FeedForward(inputs)[0];
 
             return GetComponent<FireballAttackState>();
 

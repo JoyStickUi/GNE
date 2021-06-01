@@ -8,10 +8,6 @@ public class PauseMenu : MonoBehaviour
     LevelLoader levelLoader;
     bool isPause = false;
 
-    void Awake(){
-        Time.timeScale = 1;
-    }
-
     public void PauseNResume(){
         isPause = !isPause;
         if(isPause){
@@ -34,6 +30,8 @@ public class PauseMenu : MonoBehaviour
     }
 
     public void Exit(){
+        Cursor.visible = true;
+        Time.timeScale = 1;
         StartCoroutine(levelLoader.LoadLevel(0));
     }
 }
