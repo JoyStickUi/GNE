@@ -38,6 +38,7 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         Cursor.visible = false;
+        QualitySettings.vSyncCount = 1;
         inputHandler = GetComponent<InputHandler>();
         playerLocomotion = GetComponent<PlayerLocomotion>();
         playerInventory = GetComponent<PlayerInventory>();
