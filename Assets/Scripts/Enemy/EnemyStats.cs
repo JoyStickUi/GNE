@@ -6,6 +6,7 @@ public class EnemyStats : CharacterStats
     public int maxHealth;
     public int currentHealth;
     public bool isHitted = false;
+    public bool isDead = false;
 
     AnimatorHandler animatorHandler;
 
@@ -35,6 +36,7 @@ public class EnemyStats : CharacterStats
 
         if(currentHealth <= 0){
             currentHealth = 0;
+            isDead = true;
             // animatorHandler.PlayTargetAnimation("Dead", false);
         }
     }

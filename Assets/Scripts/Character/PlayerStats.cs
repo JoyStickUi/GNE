@@ -8,8 +8,8 @@ public class PlayerStats : CharacterStats
 
     public int staminaLevel = 10;
     public int maxStamina;
-    public int currentStamina;
-    public int staminaRegenerationAmount = 1;
+    public float currentStamina;
+    public float staminaRegenerationAmount = 0.1f;
 
     public HealthBar healthbar;
     public StaminaBar staminaBar;
@@ -18,10 +18,12 @@ public class PlayerStats : CharacterStats
 
     AnimatorHandler animatorHandler;
     PlayerDeathHandler playerDeathHandler;
+    public PlayerManager playerManager;
 
     private void Awake(){
         animatorHandler = GetComponentInChildren<AnimatorHandler>();
         playerDeathHandler = GetComponent<PlayerDeathHandler>();
+        playerManager = GetComponent<PlayerManager>();
     }
 
     void Start()
@@ -69,7 +71,7 @@ public class PlayerStats : CharacterStats
 
     public void TakeStaminaDamage(int damage){
         currentStamina = currentStamina - damage;
-        staminaBar.SetCurrentStamina(currentStamina);
+        staminaBar.SetCurrentStamina(Mathf.RoundToInt(currentStamina));
 
         if(currentStamina <= 0){
             currentStamina = 0;
@@ -79,7 +81,7 @@ public class PlayerStats : CharacterStats
     public void RegenerateStamina(){
         if(currentStamina < maxStamina){
             currentStamina += staminaRegenerationAmount;
-            staminaBar.SetCurrentStamina(currentStamina);
+            staminaBar.SetCurrentStamina(Mathf.RoundToInt(currentStamina));
         }
     }
 }

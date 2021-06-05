@@ -36,11 +36,11 @@ public class PlayerLocomotion : MonoBehaviour
     float rotationSpeed = 10;
     [SerializeField]
     float fallingSpeed = 45;
-    float movementSpeedModifier = 1f;
+    public float movementSpeedModifier = 1f;
 
     [Header("Movement stamina cost")]
     [SerializeField]
-    int sprintCost = 1;
+    int sprintCost = 2;
     int rollCost = 50;
 
     void Start()

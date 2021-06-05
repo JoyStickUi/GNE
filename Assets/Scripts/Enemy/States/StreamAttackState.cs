@@ -13,6 +13,8 @@ public class StreamAttackState : EnemyState
 
     [SerializeField]
     private float cooldownTimer = 4f;
+
+    bool isComplete = false;
     
     public override EnemyState Tick(EnemyManager enemyManager){
         cooldownTimer -= Time.deltaTime;
@@ -39,8 +41,16 @@ public class StreamAttackState : EnemyState
             Destroy(stream, streamLifetime);
             
             enemyManager.isAttack = false;
+            isComplete = true;
         }   
 
-        return GetComponent<IdleState>();
+        EnemyState toReturnState = null;
+        if(isComplete){
+            toReturnState = GetComponent<IdleState>();
+        }else{
+            toReturnState = this;
+        }
+        isComplete = false;
+        return toReturnState;
     }
 }

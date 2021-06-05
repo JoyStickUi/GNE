@@ -16,6 +16,8 @@ public class FireballAttackState : EnemyState
     [SerializeField]
     private float cooldownTimer = 10f;
     
+    bool isComplete = false;
+    
     public override EnemyState Tick(EnemyManager enemyManager){
         cooldownTimer -= Time.deltaTime;
 
@@ -32,8 +34,16 @@ public class FireballAttackState : EnemyState
             fireballEf.Fire(enemyManager);
             
             enemyManager.isAttack = false;
+            isComplete = true;
         }   
 
-        return GetComponent<IdleState>();
+        EnemyState toReturnState = null;
+        if(isComplete){
+            toReturnState = GetComponent<IdleState>();
+        }else{
+            toReturnState = this;
+        }
+        isComplete = false;
+        return toReturnState;
     }
 }

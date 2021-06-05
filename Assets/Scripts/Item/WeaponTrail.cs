@@ -82,10 +82,10 @@ public class WeaponTrail : MonoBehaviour
 		_maxVertexDistanceSqr = _maxVertexDistance * _maxVertexDistance;
 	}
 
-	void OnDisable()
-	{
-		Destroy(_trailObject);
-	}
+	// void OnDisable()
+	// {
+	// 	Destroy(_trailObject);
+	// }
 
 	void Update()
 	{

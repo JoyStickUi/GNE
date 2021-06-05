@@ -15,6 +15,8 @@ public class VerticalSliceState : EnemyState
 
     [SerializeField]
     private float cooldownTimer = 10f;
+
+    bool isComplete = false;
     
     public override EnemyState Tick(EnemyManager enemyManager){
         cooldownTimer -= Time.deltaTime;
@@ -38,8 +40,16 @@ public class VerticalSliceState : EnemyState
             Destroy(slice, sliceLifetime);
             
             enemyManager.isAttack = false;
+            isComplete = true;
         }   
 
-        return GetComponent<IdleState>();
+        EnemyState toReturnState = null;
+        if(isComplete){
+            toReturnState = GetComponent<IdleState>();
+        }else{
+            toReturnState = this;
+        }
+        isComplete = false;
+        return toReturnState;
     }
 }

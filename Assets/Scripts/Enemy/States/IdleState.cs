@@ -10,10 +10,10 @@ public class IdleState : EnemyState
 
     [SerializeField]
     float detectionRadius = 10f;
-    [SerializeField]
-    float maximumDetectionAngle = 50f;
-    [SerializeField]
-    float minimumDetectionAngle = -50f;
+    // [SerializeField]
+    // float maximumDetectionAngle = 50f;
+    // [SerializeField]
+    // float minimumDetectionAngle = -50f;
 
     public override EnemyState Tick(EnemyManager enemyManager){
         if(enemyManager.currentTarget != null && enemyManager.currentPhase.keyState == EnemyPhase.MAIN_STATES.Pursue)
@@ -35,13 +35,13 @@ public class IdleState : EnemyState
             Transform characterTransform = colliders[i].transform.GetComponent<Transform>();
 
             if(characterStats != null){
-                Vector3 targetDirection = characterStats.transform.position - transform.position;
-                float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
+                // Vector3 targetDirection = characterStats.transform.position - transform.position;
+                // float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
 
-                if(viewableAngle > minimumDetectionAngle && viewableAngle < maximumDetectionAngle){
-                    enemyManager.currentTarget = characterStats;
-                    enemyManager.targetTransform = characterTransform;
-                }
+                // if(viewableAngle > minimumDetectionAngle && viewableAngle < maximumDetectionAngle){
+                enemyManager.currentTarget = characterStats;
+                enemyManager.targetTransform = characterTransform;
+                // }
             }
         }
     }

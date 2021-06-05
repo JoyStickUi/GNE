@@ -10,11 +10,13 @@ public class StaminaBar : MonoBehaviour
     }
 
     public void SetMaxStamina(int maxStamina){
-        slider.maxValue = maxStamina;
-        slider.value = maxStamina;
+        if(slider){
+            slider.maxValue = maxStamina;
+            slider.value = maxStamina;
+        }
     }
 
     public void SetCurrentStamina(int currentStamina){
-        slider.value = currentStamina;
+        if(slider) slider.value = currentStamina;
     }
 }

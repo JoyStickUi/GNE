@@ -2,6 +2,8 @@
 
 public class InputHandler : MonoBehaviour
 {
+    public InstructionsController instructionsController;
+
     public float horizontal;
     public float vertical;
     public float moveAmount;
@@ -70,6 +72,9 @@ public class InputHandler : MonoBehaviour
         moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
         mouseX = cameraInput.x;
         mouseY = cameraInput.y;
+        if(moveAmount > 0.5f){
+            instructionsController.MovementTrigger();
+        }
     }
 
     private void HandleRollInput(float delta){
@@ -83,6 +88,7 @@ public class InputHandler : MonoBehaviour
             if(rollInputTimer > 0 && rollInputTimer < 0.5f){
                 sprintFlag = false;
                 rollFlag = true;
+                instructionsController.RollTrigger();
             }
 
             rollInputTimer = 0;
@@ -102,12 +108,14 @@ public class InputHandler : MonoBehaviour
                 if(playerManager.canCombo)
                     return;
 
+                instructionsController.LightAttackTrigger();
                 playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
             }
             
         }
 
         if(rt_Input){
+            instructionsController.HeavyAttackTrigger();
             playerAttacker.HandleHeavyAttack(playerInventory.rightWeapon);
         }
     }

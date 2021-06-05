@@ -5,9 +5,9 @@ using UnityEngine;
 public class Fireball : EffectInfluencer
 {
     [SerializeField]
-    private int damage = 100;
+    private int damage = 20;
     [SerializeField]
-    private float fireballSpeed = 2f;
+    private float fireballSpeed = 5f;
     public float fireballLifetime = 9f;
 
     public override void InfluenceEn(){

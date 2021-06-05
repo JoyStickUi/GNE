@@ -21,12 +21,16 @@ public class PauseMenu : MonoBehaviour
 
     void ShowPauseMenu(){
         Cursor.visible = true;
-        transform.GetChild(0).gameObject.SetActive(true);
+        if(transform.childCount > 0){
+            transform.GetChild(0).gameObject.SetActive(true);
+        }
     }
 
     void HidePauseMenu(){
         Cursor.visible = false;
-        transform.GetChild(0).gameObject.SetActive(false);
+        if(transform.childCount > 0){
+            transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
 
     public void Exit(){

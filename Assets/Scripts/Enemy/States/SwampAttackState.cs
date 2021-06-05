@@ -18,6 +18,8 @@ public class SwampAttackState : EnemyState
     [SerializeField]
     private float cooldownTimer = 10f;
     
+    bool isComplete = false;
+
     public override EnemyState Tick(EnemyManager enemyManager){
         cooldownTimer -= Time.deltaTime;
 
@@ -42,8 +44,16 @@ public class SwampAttackState : EnemyState
             swamp.GetComponent<Swamp>().swampLifetime = swampLifetime;
             
             enemyManager.isAttack = false;
+            isComplete = true;
         }   
 
-        return GetComponent<IdleState>();
+        EnemyState toReturnState = null;
+        if(isComplete){
+            toReturnState = GetComponent<IdleState>();
+        }else{
+            toReturnState = this;
+        }
+        isComplete = false;
+        return toReturnState;
     }
 }

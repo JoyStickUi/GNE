@@ -15,6 +15,10 @@ public class EnemyManager : MonoBehaviour
     private bool _isInteracting;
     private bool _isAttack;
 
+    [Header("Phase neural layers")]
+    List<NeuralLayer> firstPhase;
+    List<NeuralLayer> secondPhase;
+
     public bool isInteracting{
         get{
             _isInteracting = enemyAnimatorHandler.anim.GetBool("isInteracting");
@@ -57,13 +61,33 @@ public class EnemyManager : MonoBehaviour
         enemyStateHandler = GetComponent<EnemyStateHandler>();
         enemyStats = GetComponent<EnemyStats>();
 
-        brain.AddLayer(3, 10);
-        brain.AddLayer(10, 1);
-        brain.LoadTrainedLayers(
-            JsonUtility
-                .FromJson<NetworkData>(Resources.Load<TextAsset>("data").text)
-                .FromJson()
-            );
+        ParseDatasets();
+        LoadFirstPhaseDataset();
+    }
+
+    void ParseDatasets(){
+        brain.AddLayer(4, 10);
+        brain.AddLayer(10, 3);
+        firstPhase = JsonUtility
+                .FromJson<NetworkData>(Resources.Load<TextAsset>("firstPhase").text)
+                .FromJson();
+        secondPhase = JsonUtility
+                .FromJson<NetworkData>(Resources.Load<TextAsset>("secondPhase").text)
+                .FromJson(); 
+    }
+
+    public void LoadFirstPhaseDataset(){
+        brain.ClearLayerList();
+        brain.AddLayer(4, 10);
+        brain.AddLayer(10, 3);
+        brain.LoadTrainedLayers(firstPhase);
+    }
+
+    public void LoadSecondPhaseDataset(){
+        brain.ClearLayerList();
+        brain.AddLayer(1, 10);
+        brain.AddLayer(10, 2);
+        brain.LoadTrainedLayers(secondPhase);
     }
 
     public void ReGetAnimHandler(){

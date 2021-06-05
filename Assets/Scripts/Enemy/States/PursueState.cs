@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,13 +12,23 @@ public class PursueState : EnemyState
             if(!enemyManager.isInteracting){
                 enemyManager.enemyLocomotion.HandleMoveToTarget();  
             }
-            
-            //PLACE FOR NEURAL NETWORK ACTIVATION
-            return GetComponent<HorizontalSliceState>();
-            // if(Random.Range(0f, 10f) > 5f){
-            //     return GetComponent<SwampAttackState>();
-            // }
 
+            if(enemyManager.enemyStats.isDead){
+                return GetComponent<DeathState>();
+            }
+
+            List<float> inputs = new List<float>();
+            inputs.Add(Vector3.Distance(enemyManager.targetTransform.position, transform.position));
+            List<float> networkOutput = enemyManager.brain.FeedForward(inputs);
+            int attackIndex = networkOutput.FindIndex(v => networkOutput.Max() == v);
+
+            switch(attackIndex){
+                case 0:
+                    return GetComponent<HorizontalSliceState>();
+                case 1:
+                    return GetComponent<VerticalSliceState>();
+            }
+            
             return this;
         }
         return GetComponent<IdleState>();

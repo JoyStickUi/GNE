@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class KeepOffsetState : EnemyState
         if(enemyManager.currentTarget != null){
             enemyManager.enemyLocomotion.distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position);
 
-            if(!enemyManager.isInteracting){
+            if(!enemyManager.isAttack){
                 enemyManager.enemyLocomotion.HandleKeepOffsetFromTarget();  
             }
 
@@ -21,9 +22,18 @@ public class KeepOffsetState : EnemyState
             inputs.Add(Vector3.Distance(enemyManager.targetTransform.position, transform.position));
             inputs.Add(enemyManager.currentTarget.currentHealth);
             inputs.Add(enemyManager.currentTarget.currentStamina);
-            float brainOutput = enemyManager.brain.FeedForward(inputs)[0];
+            inputs.Add(enemyManager.currentTarget.playerManager.playerLocomotion.movementSpeedModifier);
+            List<float> networkOutput = enemyManager.brain.FeedForward(inputs);
+            int attackIndex = networkOutput.FindIndex(v => networkOutput.Max() == v);
 
-            return GetComponent<FireballAttackState>();
+            switch(attackIndex){
+                case 0:
+                    return GetComponent<FireballAttackState>();
+                case 1:
+                    return GetComponent<SwampAttackState>();
+                case 2:
+                    return GetComponent<StreamAttackState>();
+            }
 
             return this;
         }

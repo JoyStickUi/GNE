@@ -28,4 +28,8 @@ public class NeuralNetwork
             _layers[i].SetNeurons(layers[i]._neurons);
         }
     }
+
+    public void ClearLayerList(){
+        _layers = new List<NeuralLayer>();
+    }
 }

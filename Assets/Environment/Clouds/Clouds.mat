@@ -21,8 +21,8 @@ Material:
     m_TexEnvs: []
     m_Floats:
     - Vector1_25FE8E97: 1
-    - Vector1_3D0F9438: 3
-    - Vector1_4166BA30: 0.1
+    - Vector1_3D0F9438: 10
+    - Vector1_4166BA30: 1
     m_Colors:
     - Vector4_74226681: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []

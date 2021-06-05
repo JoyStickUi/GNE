@@ -79,7 +79,7 @@ public class AnimatorHandler : MonoBehaviour
     }
 
     private void OnAnimatorMove(){
-        if(playerManager.isInteracting == false)
+        if(!playerManager.isInteracting)
             return;
 
         float delta = Time.deltaTime;
