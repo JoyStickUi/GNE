@@ -15,13 +15,15 @@ public class SwampAttackState : EnemyState
     [SerializeField]
     private float cooldownTime = 10f;
 
-    [SerializeField]
-    private float cooldownTimer = 10f;
+    public float cooldownTimer = 10f;
     
     bool isComplete = false;
 
-    public override EnemyState Tick(EnemyManager enemyManager){
+    public void TimerTick(){
         cooldownTimer -= Time.deltaTime;
+    }
+
+    public override EnemyState Tick(EnemyManager enemyManager){
 
         if(swampPrefab != null && cooldownTimer < 0f){
             //swamp attack animation
@@ -48,7 +50,7 @@ public class SwampAttackState : EnemyState
         }   
 
         EnemyState toReturnState = null;
-        if(isComplete){
+        if(isComplete || cooldownTimer > 0f){
             toReturnState = GetComponent<IdleState>();
         }else{
             toReturnState = this;

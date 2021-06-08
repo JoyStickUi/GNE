@@ -11,13 +11,15 @@ public class StreamAttackState : EnemyState
     [SerializeField]
     private float cooldownTime = 4f;
 
-    [SerializeField]
-    private float cooldownTimer = 4f;
+    public float cooldownTimer = 4f;
 
     bool isComplete = false;
+
+    public void TimerTick(){
+        cooldownTimer -= Time.deltaTime;
+    }
     
     public override EnemyState Tick(EnemyManager enemyManager){
-        cooldownTimer -= Time.deltaTime;
 
         if(streamPrefab != null && cooldownTimer < 0f){
             enemyManager.enemyAnimatorHandler.PlayTargetAnimation("high_cast", true);
@@ -45,7 +47,7 @@ public class StreamAttackState : EnemyState
         }   
 
         EnemyState toReturnState = null;
-        if(isComplete){
+        if(isComplete || cooldownTimer > 0f){
             toReturnState = GetComponent<IdleState>();
         }else{
             toReturnState = this;

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DamageCollider : MonoBehaviour
-{
-    Collider damageCollider;
+{    Collider damageCollider;
 
     public int currentWeaponDamage = 25;
+    public float damageMultiplier = 1f;
 
     private void Awake(){
         damageCollider = GetComponent<Collider>();
@@ -36,7 +36,7 @@ public class DamageCollider : MonoBehaviour
             EnemyStats enemyStats = collision.GetComponent<EnemyStats>();
 
             if(enemyStats != null){
-                enemyStats.TakeDamage(currentWeaponDamage);
+                enemyStats.TakeDamage(Mathf.RoundToInt(currentWeaponDamage * damageMultiplier));
             }
         }
     }

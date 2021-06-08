@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Stream : EffectInfluencer
 {
-    private int craterDamage = 80;
+    public int craterDamage = 80;
 
     public override void InfluenceEn(){
         playerManager.playerStats.TakeDamage(craterDamage);

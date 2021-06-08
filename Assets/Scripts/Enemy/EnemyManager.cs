@@ -66,8 +66,6 @@ public class EnemyManager : MonoBehaviour
     }
 
     void ParseDatasets(){
-        brain.AddLayer(4, 10);
-        brain.AddLayer(10, 3);
         firstPhase = JsonUtility
                 .FromJson<NetworkData>(Resources.Load<TextAsset>("firstPhase").text)
                 .FromJson();
@@ -78,8 +76,8 @@ public class EnemyManager : MonoBehaviour
 
     public void LoadFirstPhaseDataset(){
         brain.ClearLayerList();
-        brain.AddLayer(4, 10);
-        brain.AddLayer(10, 3);
+        brain.AddLayer(3, 12);
+        brain.AddLayer(12, 3);
         brain.LoadTrainedLayers(firstPhase);
     }
 

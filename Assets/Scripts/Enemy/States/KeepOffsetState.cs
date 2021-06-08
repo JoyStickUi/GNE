@@ -5,8 +5,12 @@ using UnityEngine;
 
 public class KeepOffsetState : EnemyState
 {
+    public AudioSource music;
+
     public override EnemyState Tick(EnemyManager enemyManager){
         if(enemyManager.currentTarget != null){
+            if(!music.isPlaying) music.Play();
+            
             enemyManager.enemyLocomotion.distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position);
 
             if(!enemyManager.isAttack){
@@ -17,10 +21,13 @@ public class KeepOffsetState : EnemyState
                 return GetComponent<PhaseChangingState>();
             }
 
+            GetComponent<FireballAttackState>().TimerTick();
+            GetComponent<SwampAttackState>().TimerTick();
+            GetComponent<StreamAttackState>().TimerTick();
+
             //PLACE FOR NEURAL NETWORK ACTIVATION
             List<float> inputs = new List<float>();
             inputs.Add(Vector3.Distance(enemyManager.targetTransform.position, transform.position));
-            inputs.Add(enemyManager.currentTarget.currentHealth);
             inputs.Add(enemyManager.currentTarget.currentStamina);
             inputs.Add(enemyManager.currentTarget.playerManager.playerLocomotion.movementSpeedModifier);
             List<float> networkOutput = enemyManager.brain.FeedForward(inputs);

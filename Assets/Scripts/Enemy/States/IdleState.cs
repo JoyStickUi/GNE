@@ -9,7 +9,7 @@ public class IdleState : EnemyState
     LayerMask detectionLayer;
 
     [SerializeField]
-    float detectionRadius = 10f;
+    float detectionRadius = 30f;
     // [SerializeField]
     // float maximumDetectionAngle = 50f;
     // [SerializeField]

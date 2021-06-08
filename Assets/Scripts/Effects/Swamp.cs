@@ -27,6 +27,7 @@ public class Swamp : EffectInfluencer
         damageCooldownTimer -= Time.deltaTime;
         if(damageCooldownTimer < 0f){
             playerManager.playerStats.TakeDamage(damagePerSecond);
+            playerManager.playerStats.TakeStaminaDamage(damagePerSecond);
             damageCooldownTimer = damageCooldownTime;
         }
     }

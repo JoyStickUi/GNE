@@ -17,6 +17,9 @@ public class PursueState : EnemyState
                 return GetComponent<DeathState>();
             }
 
+            GetComponent<HorizontalSliceState>().TimerTick();
+            GetComponent<VerticalSliceState>().TimerTick();
+
             List<float> inputs = new List<float>();
             inputs.Add(Vector3.Distance(enemyManager.targetTransform.position, transform.position));
             List<float> networkOutput = enemyManager.brain.FeedForward(inputs);

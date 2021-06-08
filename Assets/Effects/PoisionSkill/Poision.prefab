@@ -54006,3 +54006,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cdd0a83ecfd6b34786c1ab72770d41b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swampLifetime: 18
+  damagePerSecond: 1

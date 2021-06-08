@@ -6,7 +6,7 @@ public class PlayerManager : MonoBehaviour
 
     public Rigidbody rb;
 
-    InputHandler inputHandler;
+    public InputHandler inputHandler;
     CameraHandler cameraHandler;
     public PlayerLocomotion playerLocomotion;
     public PlayerInventory playerInventory;

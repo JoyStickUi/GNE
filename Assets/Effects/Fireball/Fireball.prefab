@@ -4830,9 +4830,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed32fe1a4071b9443b15a268ecd9f8ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
-  fireballSpeed: 2
-  fireballLifetime: 9
+  damage: 30
+  fireballSpeed: 10
+  fireballLifetime: 2
 --- !u!54 &-8853457971273104489
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -11,13 +11,15 @@ public class HorizontalSliceState : EnemyState
     [SerializeField]
     private float cooldownTime = 10f;
 
-    [SerializeField]
-    private float cooldownTimer = 10f;
+    public float cooldownTimer = 10f;
 
     bool isComplete = false;
+
+    public void TimerTick(){
+        cooldownTimer -= Time.deltaTime;
+    }
     
     public override EnemyState Tick(EnemyManager enemyManager){
-        cooldownTimer -= Time.deltaTime;
 
         if(slicePrefab != null && cooldownTimer < 0f){
             enemyManager.enemyAnimatorHandler.PlayTargetAnimation("HorizontalSlice", true);
@@ -43,7 +45,7 @@ public class HorizontalSliceState : EnemyState
         }   
 
         EnemyState toReturnState = null;
-        if(isComplete){
+        if(isComplete || cooldownTimer > 0f){
             toReturnState = GetComponent<IdleState>();
         }else{
             toReturnState = this;

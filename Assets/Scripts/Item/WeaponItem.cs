@@ -13,6 +13,11 @@ public class WeaponItem : Item
     public string Heavy_Attack_1;
     public string Light_Attack_2;
 
+    [Header("Strike costs")]
+    public int baseDamage;
+    public float lightDamageAttackMultiplier;
+    public float heavyDamageAttackMultiplier;
+
     [Header("Stamina Costs")]
     public int baseStamina;
     public float lightAttackMultiplier;

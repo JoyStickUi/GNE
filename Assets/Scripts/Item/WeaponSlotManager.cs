@@ -33,6 +33,7 @@ public class WeaponSlotManager : MonoBehaviour
         }else{
             rightHandSlot.LoadWeaponModel(weaponItem);
             attackingWeapon = weaponItem;
+            rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>().currentWeaponDamage = weaponItem.baseDamage;
             LoadRightWeaponDamageCollider();
         }
     }
@@ -51,6 +52,13 @@ public class WeaponSlotManager : MonoBehaviour
 
     private void LoadRightWeaponDamageCollider(){
         rightHandDamageCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+        float multiplier = 1f;
+        if(playerStats.playerManager.inputHandler.rb_Input){
+            multiplier = attackingWeapon.lightDamageAttackMultiplier;
+        }else if(playerStats.playerManager.inputHandler.rt_Input){
+            multiplier = attackingWeapon.heavyDamageAttackMultiplier;
+        }
+        rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>().damageMultiplier = multiplier;
     }
 
     public void OpenRightDamageCollider(){
