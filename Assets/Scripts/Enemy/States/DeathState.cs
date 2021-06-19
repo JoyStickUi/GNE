@@ -11,6 +11,7 @@ public class DeathState : EnemyState
     {
         prevDirector.SetActive(false);
         music.Pause();
+        enemyManager.enemyAnimatorHandler.PlayTargetAnimation("End", true);
         director.SetActive(true);
         return this;
     }

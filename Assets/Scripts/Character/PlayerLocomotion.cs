@@ -41,7 +41,8 @@ public class PlayerLocomotion : MonoBehaviour
     [Header("Movement stamina cost")]
     [SerializeField]
     int sprintCost = 2;
-    int rollCost = 30;
+    [SerializeField]
+    int rollCost = 15;
 
     void Start()
     {
